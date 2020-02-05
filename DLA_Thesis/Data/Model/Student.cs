@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,8 +10,9 @@ namespace DLA_Thesis.Data.Model
 {
     public class Student
     {
+        [Key]
         public int StudentID { get; set; }
-
+        public int LRN { get; set; }
         public string StudentCode { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -42,7 +46,10 @@ namespace DLA_Thesis.Data.Model
 
         public string GuardianOccupation { get; set; }
 
+        [NotMapped]
+        public IFormFile Image { get; set; }
 
+        public string ImageName { get; set; }
 
 
 
