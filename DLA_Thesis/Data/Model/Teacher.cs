@@ -22,6 +22,7 @@ namespace DLA_Thesis.Data.Model
         public string Schools { get; set; }
         public string Skills { get; set; }
         public string Courses { get; set; }
+        public string Email { get; set; }
         public string UserLevel { get; set; }
 
         public string Gender { get; set; }

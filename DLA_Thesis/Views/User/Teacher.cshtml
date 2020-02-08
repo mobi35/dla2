@@ -16,6 +16,11 @@
                 </div>
                 <div class="modal-body">
 
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input id="email" type="text" class="form-control" />
+                        <small id="email_v" style="color:red;"></small>
+                    </div>
 
 
                     <div class="form-group">
@@ -182,6 +187,9 @@
             student.append("Image", fileInput.files[i]);
         }
 
+
+        
+        var email = $('#email').val();
         var fname = $('#fname').val();
         var mname = $('#mname').val();
         var lname = $('#lname').val();
@@ -189,8 +197,8 @@
         var bdate = $('#bdate').val();
         var skill1 = $('#skill1').val();
         var skill2 = $('#skill2').val();
-          var level = $('#level').val();
-          var skill3 = $('#skill3').val();
+        var level = $('#level').val();
+        var skill3 = $('#skill3').val();
         if (skill1 == "" || fname == "" || mname == "" || lname == "" || address == "" || bdate == "" ) {
             alert("Please complete the fields");
             return false;
@@ -210,7 +218,8 @@
         student.append("BirthDate", bdate);
         student.append("Gender", gender);
         student.append("Skills", skill);
-          student.append("UserLevel", level);
+        student.append("UserLevel", level);
+        student.append("Email", email);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/User/CreateTeacher');
         xhr.send(student);

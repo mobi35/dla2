@@ -63,7 +63,7 @@
 
                                     <ul class="main_nav">
                                         <li class="active"><a href="#">Home</a></li>
-                                        <li><a asp-action="Index" asp-controller="User" >Login</a></li>
+                                        <li><a href="#" data-toggle="modal" data-target="#exampleModal" >Login</a></li>
                                     </ul>
                             
 
@@ -120,6 +120,10 @@
                 </ul>
             </nav>
         </div>
+
+
+
+
         @RenderBody()
 
 
@@ -131,6 +135,14 @@
         <footer class="footer">
             <div class="footer_background" style="background-image:url(images/footer_background.png)"></div>
             <div class="container">
+
+
+
+
+
+
+
+
                 <div class="row footer_row">
                     <div class="col">
                         <div class="footer_content">
@@ -147,6 +159,40 @@
                                         </div>
                                     
                                         <div class="footer_social">
+
+                                     
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="radio" id="student" checked name="user" /> Student<br />
+                                                            <input type="radio" id="teacher" name="user" /> Teacher  <br /> <br />
+
+
+                                                            <label>Email/LRN</label>
+                                                            <input type="text" id="username" class="form-control" />
+                                                            <label>Password</label>
+                                                            <input type="password" id="password" class="form-control" />
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                         
+                                                            <div style="text-align:center; width:100%;">
+                                                                <button id="login" type="button" class="btn btn-primary">Login</button>
+                                                            </div>
+                                                               
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <ul>
                                                 <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                                                 <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
@@ -223,3 +269,65 @@
     <script src="~/js/custom.js"></script>
 </body>
 </html>
+
+
+<script>
+
+
+    $('#login').click(function () {
+
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        var student = $('#student').is(':checked');
+        var teacher = $('#teacher').is(':checked');
+
+
+          if (username == "" || password == "") {
+                alert("Please write your LRN/EMAIL AND PASSWORD");
+                return false;
+            }
+
+        var userType = "";
+        if (student) {
+
+               if(!/^[0-9]+$/.test(username)){
+                   alert("Please only enter numeric characters only for your LRN number (Allowed input:0-9)");
+                   return false;
+            }
+            userType = "student";
+        }
+
+    
+
+        if (teacher) {
+            
+
+               userType = "teacher";
+        }
+
+        $.ajax({
+
+            url: '/Login/ExecuteLogin',
+            type: 'POST',
+            data: {userType : userType, userName:username, password:password},
+            success: function (e    ) {
+                alert(e);
+
+                if (e == "error") {
+                    alert("Error");
+                } else {
+                    alert("success");
+                }
+
+            }
+
+
+        });
+
+
+    });
+
+
+</script>

@@ -93,6 +93,8 @@ namespace DLA_Thesis.Migrations
 
                     b.Property<string>("NameExtension");
 
+                    b.Property<string>("Password");
+
                     b.Property<string>("Phonenumber");
 
                     b.Property<string>("Schools");
@@ -132,6 +134,8 @@ namespace DLA_Thesis.Migrations
                     b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("Courses");
+
+                    b.Property<string>("Email");
 
                     b.Property<string>("FirstName");
 
