@@ -61,21 +61,43 @@ namespace DLA_Thesis.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<float>("Balance");
+
+                    b.Property<string>("Barangay");
+
+                    b.Property<string>("BirthCertificateName");
+
                     b.Property<DateTime>("BirthDate");
+
+                    b.Property<string>("City");
 
                     b.Property<int>("CurrentGrade");
 
                     b.Property<string>("EmailAddress");
 
-                    b.Property<string>("FatherName");
+                    b.Property<string>("FatherFirstName");
+
+                    b.Property<string>("FatherLastName");
+
+                    b.Property<string>("FatherNumber");
 
                     b.Property<string>("FatherOccupation");
 
                     b.Property<string>("FirstName");
 
+                    b.Property<string>("Form137Name");
+
+                    b.Property<string>("Form138Name");
+
                     b.Property<string>("Gender");
 
-                    b.Property<string>("GuardianName");
+                    b.Property<string>("GoodMoralName");
+
+                    b.Property<string>("GuardianFirstName");
+
+                    b.Property<string>("GuardianLastName");
+
+                    b.Property<string>("GuardianNumber");
 
                     b.Property<string>("GuardianOccupation");
 
@@ -87,7 +109,11 @@ namespace DLA_Thesis.Migrations
 
                     b.Property<string>("MiddleName");
 
-                    b.Property<string>("MotherName");
+                    b.Property<string>("MotherFirstName");
+
+                    b.Property<string>("MotherLastName");
+
+                    b.Property<string>("MotherNumber");
 
                     b.Property<string>("MotherOccupation");
 
@@ -98,6 +124,8 @@ namespace DLA_Thesis.Migrations
                     b.Property<string>("Phonenumber");
 
                     b.Property<string>("Schools");
+
+                    b.Property<string>("Status");
 
                     b.Property<string>("StudentCode");
 

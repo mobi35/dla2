@@ -184,8 +184,21 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                          
+
+
                                                             <div style="text-align:center; width:100%;">
-                                                                <button id="login" type="button" class="btn btn-primary">Login</button>
+
+
+                                                                <button id="login" type="button" class="btn btn-primary">Login</button><br /><br />
+                                                                <a onclick="Recover()" href="#">Recover Account</a> 
+                                                                
+                                                                <div id="recoverTab">
+                                                                    <br />
+                                                                    <input type="text" id="recover_email" class="form-control" placeholder="Email" />
+                                                                   <i class="recover_validation" style="color:red;"></i>
+                                                                    <br />
+                                                                    <button id="SubmitRecover" class="btn btn-primary">Recover</button>
+                                                                </div>
                                                             </div>
                                                                
                                                         </div>
@@ -312,12 +325,19 @@
             url: '/Login/ExecuteLogin',
             type: 'POST',
             data: {userType : userType, userName:username, password:password},
-            success: function (e    ) {
+            success: function (e) {
                 alert(e);
-
-                if (e == "error") {
+                if (e == "lrn_exist") {
+                      alert("LRN already exist");
+                    return false;
+                } else if (e == "email_exist") {
+                      alert("Email already exist");
+                      return false;
+                }
+                if (e == "error" || e == "Error") {
                     alert("Error");
                 } else {
+                     sessionStorage.setItem("username", e);
                     alert("success");
                 }
 
@@ -329,5 +349,46 @@
 
     });
 
+    $('#recoverTab').hide();
+
+
+
+    function Recover() {
+        $('#recoverTab').show();
+
+        return false;
+    }
+
+
+
+    $('#SubmitRecover').click(function () {
+
+        if ($('#recover_email').val() == "") {
+             $('.recover_validation').html("Please write your email");
+            return false;
+        }
+
+        $.ajax({
+
+            url: '/Login/Recover',
+            type: 'Post',
+            data: {email: $('#recover_email').val() },
+            success: function (e) {
+
+                if (e == "email_not_found") {
+                    $('.recover_validation').html("This email doesn't exist.");
+                    return false;
+                }
+                else {
+                    $('.recover_validation').html("Please check your email to recover your account.");
+                }
+            }
+
+        });
+
+        return false;
+
+
+    });
 
 </script>

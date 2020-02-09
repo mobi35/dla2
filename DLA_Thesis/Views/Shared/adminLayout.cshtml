@@ -1,4 +1,13 @@
-﻿
+﻿<script>
+    
+    if (sessionStorage.getItem("username") == null) {
+        window.open("../../../../", "_self");
+    } 
+      
+  
+
+</script>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +18,7 @@
     <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-      Divine Light Academy Enrollment System
+        Divine Light Academy Enrollment System
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
@@ -35,7 +44,7 @@
                     </div>
                 </a>
                 <a href="#" style="font-size:13px;" class="simple-text logo-normal">
-                Divine Light Academy
+                    Divine Light Academy  
                     <!-- <div class="logo-image-big">
                       <img src="../assets/img/logo-big.png">
                     </div> -->
@@ -71,7 +80,11 @@
         <div class="main-panel">
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+           
                 <div class="container-fluid">
+
+
+
                     <div class="navbar-wrapper">
                         <div class="navbar-toggle">
                             <button type="button" class="navbar-toggler">
@@ -88,46 +101,26 @@
                         <span class="navbar-toggler-bar navbar-kebab"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        <form>
-                            <div class="input-group no-border">
-                                <input type="text" value="" class="form-control" placeholder="Search...">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <i class="nc-icon nc-zoom-split"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+
+
+                        <a href=""> <small id="username"></small></a>
+
+
                         <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link btn-magnify" href="#pablo">
-                                    <i class="nc-icon nc-layout-11"></i>
-                                    <p>
-                                        <span class="d-lg-none d-md-block">Stats</span>
-                                    </p>
-                                </a>
-                            </li>
+
                             <li class="nav-item btn-rotate dropdown">
                                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="nc-icon nc-bell-55"></i>
+                                    <i class="nc-icon nc-settings-gear-65"></i>
                                     <p>
                                         <span class="d-lg-none d-md-block">Some Actions</span>
                                     </p>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                
+                                    <a class="dropdown-item" onclick="LogoutNow()" href="#">Logout</a>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn-rotate" href="#pablo">
-                                    <i class="nc-icon nc-settings-gear-65"></i>
-                                    <p>
-                                        <span class="d-lg-none d-md-block">Account</span>
-                                    </p>
-                                </a>
-                            </li>
+                          
                         </ul>
                     </div>
                 </div>
@@ -191,7 +184,7 @@
         </div>
     </div>
     <!--   Core JS Files   -->
-  
+
     <script src="~/assets/js/core/popper.min.js"></script>
     <script src="~/assets/js/core/bootstrap.min.js"></script>
     <script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -214,3 +207,18 @@
 </body>
 
 </html>
+
+
+<script>
+
+      document.getElementById("username").innerHTML = sessionStorage.getItem("username");
+
+
+    function LogoutNow() {
+
+        sessionStorage.clear();
+            window.open("../../../../", "_self");
+    }
+
+
+</script>

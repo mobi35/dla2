@@ -46,6 +46,12 @@ namespace DLA_Thesis.Controllers
                 student.ImageName = uniqueName;
             }
 
+            if (studentRepo.FindStudent(a => a.LRN == student.LRN) != null)
+                return "LRN_exist";
+            else if (teacherRepo.FindTeacher(a => a.Email == student.EmailAddress) != null)
+                return "email_exist";
+
+
             studentRepo.Create(student);
             return "";
         }
@@ -66,5 +72,80 @@ namespace DLA_Thesis.Controllers
             teacherRepo.Create(teacher);
             return "";
         }
+
+
+        public IActionResult AcceptStudentEnrollment(int id)
+        {
+            
+          var student =  studentRepo.FindStudent(a => a.StudentID == id);
+            student.Status = "Active";
+            studentRepo.Update(student);
+            return RedirectToAction("Index", "User");
+        }
+
+        public IActionResult DeclineStudentEnrollment(int id)
+        {
+           
+            var student = studentRepo.FindStudent(a => a.StudentID == id);
+            student.Status = "Declined";
+            studentRepo.Update(student);
+            return RedirectToAction("Index","User");
+        }
+
+        public string StudentEnroll(Student student)
+        {
+
+            if (student.Image != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Student");
+                var uniqueName = Guid.NewGuid().ToString() + "_" + student.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueName);
+                student.Image.CopyTo(new FileStream(filePath, FileMode.Create));
+                student.ImageName = uniqueName;
+            }
+
+            if (student.BirthCertificate != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Student");
+                var uniqueName = Guid.NewGuid().ToString() + "_" + student.BirthCertificate.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueName);
+                student.BirthCertificate.CopyTo(new FileStream(filePath, FileMode.Create));
+                student.BirthCertificateName = uniqueName;
+            }
+
+            if (student.Form137 != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Student");
+                var uniqueName = Guid.NewGuid().ToString() + "_" + student.Form137.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueName);
+                student.Form137.CopyTo(new FileStream(filePath, FileMode.Create));
+                student.Form137Name = uniqueName;
+            }
+
+            if (student.Form138 != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Student");
+                var uniqueName = Guid.NewGuid().ToString() + "_" + student.Form138.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueName);
+                student.Form138.CopyTo(new FileStream(filePath, FileMode.Create));
+                student.Form138Name = uniqueName;
+            }
+
+            if (student.GoodMoral != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Student");
+                var uniqueName = Guid.NewGuid().ToString() + "_" + student.GoodMoral.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueName);
+                student.GoodMoral.CopyTo(new FileStream(filePath, FileMode.Create));
+                student.GoodMoralName = uniqueName;
+            }
+            student.Password = Guid.NewGuid().ToString();
+            studentRepo.Create(student);
+
+          
+            return "";
+        }
+
+        
     }
 }

@@ -39,6 +39,7 @@ namespace DLA_Thesis
             services.AddScoped<IScheduleRepository, ScheduleRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             //   services.AddDbContext<MessengerDBContext>(options => options.UseInMemoryDatabase("MessengerDBContext"));
             services.AddDbContext<DLADBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
@@ -63,7 +64,6 @@ namespace DLA_Thesis
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

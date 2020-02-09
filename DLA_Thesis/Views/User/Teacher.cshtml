@@ -24,6 +24,20 @@
 
 
                     <div class="form-group">
+                        <label>Password</label>
+                        <input id="password" type="text" class="form-control" />
+                        <small id="password_v" style="color:red;"></small>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Repeat Password</label>
+                        <input id="rpassword" type="text" class="form-control" />
+                        <small id="rpassword_v" style="color:red;"></small>
+                    </div>
+
+
+                    <div class="form-group">
                         <label>First Name</label>
                         <input id="fname" type="text" class="form-control" />
                         <small id="fname_v" style="color:red;"></small>
@@ -188,18 +202,19 @@
         }
 
 
-        
         var email = $('#email').val();
         var fname = $('#fname').val();
         var mname = $('#mname').val();
         var lname = $('#lname').val();
+        var password = $('#password').val();
+        var rpassword = $('#rpassword').val();
         var address = $('#address').val();
         var bdate = $('#bdate').val();
         var skill1 = $('#skill1').val();
         var skill2 = $('#skill2').val();
         var level = $('#level').val();
         var skill3 = $('#skill3').val();
-        if (skill1 == "" || fname == "" || mname == "" || lname == "" || address == "" || bdate == "" ) {
+        if (skill1 == "" || fname == "" || mname == "" || lname == "" || address == "" || bdate == "" || password == "" || rpassword == "" ) {
             alert("Please complete the fields");
             return false;
         }
@@ -215,6 +230,8 @@
         student.append("MiddleName", mname);
         student.append("LastName", lname);
         student.append("Address", address);
+        student.append("Password", password);
+        student.append("ConfirmPassword", rpassword);
         student.append("BirthDate", bdate);
         student.append("Gender", gender);
         student.append("Skills", skill);

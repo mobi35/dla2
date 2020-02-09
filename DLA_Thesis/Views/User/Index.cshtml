@@ -23,6 +23,19 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Password</label>
+                        <input id="password" type="text" class="form-control" />
+                        <small id="password_v" style="color:red;"></small>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Repeat Password</label>
+                        <input id="rpassword" type="text" class="form-control" />
+                        <small id="rpassword_v" style="color:red;"></small>
+                    </div>
+
+                    <div class="form-group">
                         <label>First Name</label>
                         <input id="fname" type="text" class="form-control" />
                         <small id="fname_v" style="color:red;"></small>
@@ -177,12 +190,14 @@
         var lrn = $('#lrn').val();
         var fname = $('#fname').val();
         var mname = $('#mname').val();
+        var password = $('#password').val();
+        var rpassword = $('#rpassword').val();
         var lname = $('#lname').val();
         var address = $('#address').val();
         var bdate = $('#bdate').val();
         var grade = $('#grade').val();
 
-        if (lrn == "" || fname == "" || mname == "" || lname == "" || address == "" || bdate == "" || grade == "") {
+        if (lrn == "" || fname == "" || mname == "" || lname == "" || address == "" || bdate == "" || grade == "" || password == "" || rpassword == "") {
             alert("Please complete the fields");
             return false;
         }
@@ -190,6 +205,8 @@
 
         student.append("LRN", lrn);
         student.append("FirstName", fname);
+        student.append("Password", password);
+        student.append("ConfirmPassword", rpassword);
         student.append("MiddleName", mname);
         student.append("LastName", lname);
         student.append("Address", address);

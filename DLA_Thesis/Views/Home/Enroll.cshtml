@@ -1,0 +1,312 @@
+﻿
+@{
+    ViewData["Title"] = "Enroll";
+    Layout = "~/Views/Shared/homeLayout.cshtml";
+}
+
+
+<br /><br /><br /><br />
+
+    <div class="features">
+        <div class="container">
+
+
+
+            <div class="row">
+                <div class="col">
+                    <div class="section_title_container text-center">
+                        <h2 class="section_title">Welcome To Divine Light Academy</h2>
+                        <div class="section_subtitle"><p>For the glory of God —The Light Shines Brighter!</p></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <h3>Learner's Detail</h3>
+
+            <div class="row features_row">
+                <div class="col-lg-12 feature_col">
+                    <label> LRN </label>
+                    <input class="form-control" name="LRN" type="number" />
+                </div>
+
+            </div>
+
+            <form id="enrollment-form" enctype="multipart/form-data">
+
+                <div class="row features_row">
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> First Name </label>
+                        <input id="fname" name="FirstName" class="form-control" type="text" />
+                    </div>
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Middle Name </label>
+                        <input id="mname" name="MiddleName" class="form-control" type="text" />
+                    </div>
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Last Name </label>
+                        <input id="lname" name="LastName" class="form-control" type="text" />
+                    </div>
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Name Extension </label>
+                        <input id="nename" name="NameExtension" class="form-control" type="text" />
+                    </div>
+
+                </div>
+
+                <div class="row features_row">
+
+                    <!-- Features Item -->
+                    <div class="col-lg-6 feature_col">
+                        <label> Street Address </label>
+                        <input id="address" name="Address" class="form-control" type="text" />
+                    </div>
+                    <!-- Features Item -->
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Barangay </label>
+                        <input id="barangay" name="Barangay" class="form-control" type="text" />
+                    </div>
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> City/Municipality </label>
+                        <input id="city" name="City" class="form-control" type="text" />
+                    </div>
+
+                </div>
+
+
+                <div class="row features_row">
+
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 ">
+                        <label>Gender</label>
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <small>Male</small>
+                                    <input id="male" value="male" style="width:50%; margin-top:3%;" name="Gender" class="form-control" type="radio" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <small>Female</small>
+                                    <input id="female" value="male" style="width:50%; margin-top:3%;" name="Gender" class="form-control" type="radio" />
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- Features Item -->
+                    <!-- Features Item -->
+                    <div class="col-lg-5 feature_col">
+                        <label> Phone Number / Guardian's Phone Number </label>
+                        <input id="cpnumber" name="Phonenumber" class="form-control" type="text" />
+                    </div>
+
+                    <div class="col-lg-4  feature_col">
+                        <label> Grade This school year </label>
+                        <select id="grade" name="Phonenumber" class="form-control">
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+
+                    <!-- Features Item -->
+
+
+                </div>
+
+
+
+
+
+                <br />
+                <h3>Parent's Detail</h3>
+
+                <div class="row features_row">
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Father's First Name </label>
+                        <input id="fatherfname" name="FatherFirstName" class="form-control" type="text" />
+                    </div>
+                    <!-- Features Item -->
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Father's Last Name  </label>
+                        <input id="fatherlname" name="FatherLastName" class="form-control" type="text" />
+                    </div>
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Father's Occupation  </label>
+                        <input id="fatheroccupation" name="FatherOccupation" class="form-control" type="text" />
+                    </div>
+
+                    <div class="col-lg-3 feature_col">
+                        <label> Father's Phone Number  </label>
+                        <input id="fathercpnumber" name="FatherNumber" class="form-control" type="text" />
+                    </div>
+
+                </div>
+
+
+
+                <div class="row features_row">
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Mother's First Name </label>
+                        <input id="motherfname" name="MotherFirstName" class="form-control" type="text" />
+                    </div>
+                    <!-- Features Item -->
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Mother's Last Name  </label>
+                        <input id="motherlname" name="MotherLastName" class="form-control" type="text" />
+                    </div>
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Mother's Occupation  </label>
+                        <input id="motheroccupation" name="MotherOccupation" class="form-control" type="text" />
+                    </div>
+
+                    <div class="col-lg-3 feature_col">
+                        <label> Mother's Phone Number  </label>
+                        <input id="mothercpnumber" name="MotherNumber" class="form-control" type="text" />
+                    </div>
+
+                </div>
+
+
+                <div class="row features_row">
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Guardian First Name </label>
+                        <input id="guardianfname" name="GuardianFirstName" class="form-control" type="text" />
+                    </div>
+                    <!-- Features Item -->
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Guardian Last Name  </label>
+                        <input id="guardianlname" name="GuardianLastName" class="form-control" type="text" />
+                    </div>
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Guardian's Occupation  </label>
+                        <input id="guardianoccupation" name="GuardianNumber" class="form-control" type="text" />
+                    </div>
+
+                    <div class="col-lg-3 feature_col">
+                        <label> Guardian's Phone Number  </label>
+                        <input id="guardiancpnumber" name="GuardianOccupation" class="form-control" type="text" />
+                    </div>
+
+                </div>
+
+
+
+                <br />
+                <h3>Requirements</h3>
+
+                <div class="row features_row">
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> Birth Certificate </label>
+                        <input id="bc" name="BirthCertificate" class="form-control" type="file" />
+                    </div>
+                    <!-- Features Item -->
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> F-137  </label>
+                        <input id="f137" name="Form137" class="form-control" type="file" />
+                    </div>
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> F-138  </label>
+                        <input id="f138" name="Form138" class="form-control" type="file" />
+                    </div>
+
+                    <div class="col-lg-3 feature_col">
+                        <label> Good Moral  </label>
+                        <input id="goodmoral" name="GoodMoral" class="form-control" type="file" />
+                    </div>
+
+                </div>
+
+                <div class="row features_row">
+
+                    <!-- Features Item -->
+                    <div class="col-lg-3 feature_col">
+                        <label> ID Picture </label>
+                        <input id="image" name="Image" class="form-control" type="file" />
+                    </div>
+                    <!-- Features Item -->
+                    <!-- Features Item -->
+             
+
+                </div>
+
+                <br />
+                Do you agree that the details you input above is true?
+                <input type="checkbox" />
+                <br />
+                <input class="btn btn-primary" type="submit" value="Enroll" />
+            </form>
+
+
+        </div>
+        </div>
+
+
+<script>
+
+
+    document.getElementById('enrollment-form').onsubmit = function () {
+
+
+        var form = $(this);
+
+        alert(form.serialize());
+          $.ajax({
+              type: "POST",
+               processData: false,
+            contentType: false,
+           url: '/User/StudentEnroll',
+           data:  new FormData(this), 
+           success: function(data)
+           {
+               alert(data);
+           }
+         });
+      
+        return false;
+
+    }
+
+
+
+</script>
