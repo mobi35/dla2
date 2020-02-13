@@ -341,14 +341,16 @@
                     if (e.lrn != null) {
                         sessionStorage.setItem("username", e.lrn);
                         sessionStorage.setItem("role", "student");
+                            window.open("../../Student/Settings", "_self");
                     }
                    
                     if (e.email != null) {
                         sessionStorage.setItem("username", e.email);
                         sessionStorage.setItem("role", "teacher");
+                            window.open("../../User/", "_self");
                     }
 
-                    window.open("../../User/", "_self");
+                
                 }
 
             }
