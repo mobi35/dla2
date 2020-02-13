@@ -10,11 +10,17 @@ namespace DLA_Thesis.Data.Model
     {
         [Key]
         public int GradesID { get; set; }
+     
+        public string StudentLRN { get; set; }
+        public string TeacherEmail { get; set; }
+        public string SectionID { get; set; }
+
         public string SubjectCode { get; set; }
         public float GradeLevel { get; set; }
         public int Grading { get; set; }
-        public string StudentCode { get; set; }
-        public string TeacherCode { get; set; }
+        public float SubjectGrade { get; set; }
+        public DateTime DateAdded { get; set; }
+
 
     }
 }

@@ -326,7 +326,8 @@
             type: 'POST',
             data: {userType : userType, userName:username, password:password},
             success: function (e) {
-                alert(e);
+
+              
                 if (e == "lrn_exist") {
                       alert("LRN already exist");
                     return false;
@@ -337,8 +338,17 @@
                 if (e == "error" || e == "Error") {
                     alert("Error");
                 } else {
-                     sessionStorage.setItem("username", e);
-                    alert("success");
+                    if (e.lrn != null) {
+                        sessionStorage.setItem("username", e.lrn);
+                        sessionStorage.setItem("role", "student");
+                    }
+                   
+                    if (e.email != null) {
+                        sessionStorage.setItem("username", e.email);
+                        sessionStorage.setItem("role", "teacher");
+                    }
+
+                    window.open("../../User/", "_self");
                 }
 
             }

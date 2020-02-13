@@ -12,7 +12,7 @@ namespace DLA_Thesis.Data.Model
     {
         [Key]
         public int StudentID { get; set; }
-        public int LRN { get; set; }
+        public string LRN { get; set; }
         public string Password { get; set; }
         public string StudentCode { get; set; }
         public string FirstName { get; set; }

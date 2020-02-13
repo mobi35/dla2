@@ -73,3 +73,5 @@ C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Vie
 C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Subject\Index.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Home\Enroll.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Student\Settings.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\User\ChangePassword.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Section\Index.cshtml.g.cs

@@ -5,136 +5,174 @@
 }
 
 
-<br /><br /><br /><br />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
-    <div class="features">
-        <div class="container">
+
+
+<style>
+
+
+    small {
+        color: red;
+    }
+</style>
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="features">
+    <div id="container" class="container">
 
 
 
-            <div class="row">
-                <div class="col">
-                    <div class="section_title_container text-center">
-                        <h2 class="section_title">Welcome To Divine Light Academy</h2>
-                        <div class="section_subtitle"><p>For the glory of God —The Light Shines Brighter!</p></div>
-                    </div>
+        <div class="row">
+            <div class="col">
+                <div class="section_title_container text-center">
+                    <h2 class="section_title">Welcome To Divine Light Academy</h2>
+                    <div class="section_subtitle"><p>For the glory of God —The Light Shines Brighter!</p></div>
                 </div>
             </div>
+        </div>
 
 
-            <h3>Learner's Detail</h3>
+        <h3>Learner's Detail</h3>
+
+        <div id="success"></div>
+
+
+
+
+
+        <form id="enrollment-form" enctype="multipart/form-data">
 
             <div class="row features_row">
                 <div class="col-lg-12 feature_col">
                     <label> LRN </label>
-                    <input class="form-control" name="LRN" type="number" />
+                    <input class="form-control" name="LRN" type="text" />
+                    <small id="lrn"></small>
                 </div>
 
             </div>
 
-            <form id="enrollment-form" enctype="multipart/form-data">
 
-                <div class="row features_row">
+            <div class="row features_row">
 
-                    <!-- Features Item -->
-                    <div class="col-lg-3 feature_col">
-                        <label> First Name </label>
-                        <input id="fname" name="FirstName" class="form-control" type="text" />
-                    </div>
-                    <!-- Features Item -->
-                    <div class="col-lg-3 feature_col">
-                        <label> Middle Name </label>
-                        <input id="mname" name="MiddleName" class="form-control" type="text" />
-                    </div>
-                    <!-- Features Item -->
-                    <div class="col-lg-3 feature_col">
-                        <label> Last Name </label>
-                        <input id="lname" name="LastName" class="form-control" type="text" />
-                    </div>
-
-                    <!-- Features Item -->
-                    <div class="col-lg-3 feature_col">
-                        <label> Name Extension </label>
-                        <input id="nename" name="NameExtension" class="form-control" type="text" />
-                    </div>
-
+                <!-- Features Item -->
+                <div class="col-lg-3 feature_col">
+                    <label> First Name </label>
+                    <input name="FirstName" class="form-control" type="text" />    <small id="fname"></small>
+                </div>
+                <!-- Features Item -->
+                <div class="col-lg-3 feature_col">
+                    <label> Middle Name </label>
+                    <input name="MiddleName" class="form-control" type="text" />     <small id="mname"></small>
+                </div>
+                <!-- Features Item -->
+                <div class="col-lg-3 feature_col">
+                    <label> Last Name </label>
+                    <input name="LastName" class="form-control" type="text" />     <small id="lname"></small>
                 </div>
 
-                <div class="row features_row">
-
-                    <!-- Features Item -->
-                    <div class="col-lg-6 feature_col">
-                        <label> Street Address </label>
-                        <input id="address" name="Address" class="form-control" type="text" />
-                    </div>
-                    <!-- Features Item -->
-                    <!-- Features Item -->
-                    <div class="col-lg-3 feature_col">
-                        <label> Barangay </label>
-                        <input id="barangay" name="Barangay" class="form-control" type="text" />
-                    </div>
-
-                    <!-- Features Item -->
-                    <div class="col-lg-3 feature_col">
-                        <label> City/Municipality </label>
-                        <input id="city" name="City" class="form-control" type="text" />
-                    </div>
-
+                <!-- Features Item -->
+                <div class="col-lg-3 feature_col">
+                    <label> Name Extension </label>
+                    <input name="NameExtension" class="form-control" type="text" />     <small id="nename"></small>
                 </div>
 
+            </div>
 
-                <div class="row features_row">
+            <div class="row features_row">
+
+                <!-- Features Item -->
+                <div class="col-lg-6 feature_col">
+                    <label> Street Address </label>
+                    <input name="Address" class="form-control" type="text" />  <small id="address"></small>
+                </div>
+                <!-- Features Item -->
+                <!-- Features Item -->
+                <div class="col-lg-3 feature_col">
+                    <label> Barangay </label>
+                    <input name="Barangay" class="form-control" type="text" />  <small id="barangay"></small>
+                </div>
+
+                <!-- Features Item -->
+                <div class="col-lg-3 feature_col">
+                    <label> City/Municipality </label>
+                    <input name="City" class="form-control" type="text" />  <small id="city"></small>
+                </div>
+
+            </div>
 
 
-                    <!-- Features Item -->
-                    <div class="col-lg-3 ">
-                        <label>Gender</label>
-                        <div class="row">
+            <div class="row features_row">
 
-                            <div class="col-md-3">
-                                <div class="row">
-                                    <small>Male</small>
-                                    <input id="male" value="male" style="width:50%; margin-top:3%;" name="Gender" class="form-control" type="radio" />
-                                </div>
+
+                <!-- Features Item -->
+                <div class="col-lg-3 ">
+                    <label>Gender</label>
+                    <div  class="row">
+
+                        <div class="col-md-5">
+                            <div class="row">
+                                <span>Male</span>
+                                <input id="male" checked value="male" style="width:50%; margin-top:3%;" name="Gender" class="form-control" type="radio" />
                             </div>
+                        </div>
 
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <small>Female</small>
-                                    <input id="female" value="male" style="width:50%; margin-top:3%;" name="Gender" class="form-control" type="radio" />
-                                </div>
+                        <div class="col-md-5">
+                            <div class="row">
+                                <span>Female</span>
+                                <input id="female" value="male" style="width:50%; margin-top:3%;" name="Gender" class="form-control" type="radio" />
                             </div>
-
                         </div>
 
 
+
                     </div>
-
-
-
-                    <!-- Features Item -->
-                    <!-- Features Item -->
-                    <div class="col-lg-5 feature_col">
-                        <label> Phone Number / Guardian's Phone Number </label>
-                        <input id="cpnumber" name="Phonenumber" class="form-control" type="text" />
-                    </div>
-
-                    <div class="col-lg-4  feature_col">
-                        <label> Grade This school year </label>
-                        <select id="grade" name="Phonenumber" class="form-control">
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
-
-                    <!-- Features Item -->
 
 
                 </div>
 
+                <!-- Features Item -->
+                <!-- Features Item -->
+                <div class="col-lg-3 feature_col">
+                    <label> Phone Number </label>
+                    <input name="Phonenumber" class="form-control" type="text" /> <small id="cpnumber"></small>
+                </div>
+                <div class="col-lg-3 feature_col">
+                    <label> Email </label>
+                    <input name="EmailAddress" class="form-control" type="text" /> <small id="email"></small>
+                </div>
 
+                <div class="col-lg-3  feature_col">
+                    <label> Grade This school year </label>
+                    <select id="grade" name="CurrentGrade" class="form-control">
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+
+
+                <!-- Features Item -->
+
+
+            </div>
+
+            <div class="row features_row">
+                <div class="col-lg-3 feature_col">
+                    <span>Birthdate</span>
+                    <input name="BirthDate" id="datepicker" width="276" /> <small id="birthdate"></small>
+                </div>
+
+            </div>
 
 
 
@@ -146,24 +184,24 @@
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Father's First Name </label>
-                        <input id="fatherfname" name="FatherFirstName" class="form-control" type="text" />
+                        <input name="FatherFirstName" class="form-control" type="text" /> <small id="fatherfname"></small>
                     </div>
                     <!-- Features Item -->
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Father's Last Name  </label>
-                        <input id="fatherlname" name="FatherLastName" class="form-control" type="text" />
+                        <input name="FatherLastName" class="form-control" type="text" /> <small id="fatherlname"></small>
                     </div>
 
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Father's Occupation  </label>
-                        <input id="fatheroccupation" name="FatherOccupation" class="form-control" type="text" />
+                        <input name="FatherOccupation" class="form-control" type="text" /> <small id="fatheroccupation"></small>
                     </div>
 
                     <div class="col-lg-3 feature_col">
                         <label> Father's Phone Number  </label>
-                        <input id="fathercpnumber" name="FatherNumber" class="form-control" type="text" />
+                        <input name="FatherNumber" class="form-control" type="text" /> <small id="fathercpnumber"></small>
                     </div>
 
                 </div>
@@ -175,24 +213,24 @@
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Mother's First Name </label>
-                        <input id="motherfname" name="MotherFirstName" class="form-control" type="text" />
+                        <input name="MotherFirstName" class="form-control" type="text" /> <small id="motherfname"></small>
                     </div>
                     <!-- Features Item -->
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Mother's Last Name  </label>
-                        <input id="motherlname" name="MotherLastName" class="form-control" type="text" />
+                        <input name="MotherLastName" class="form-control" type="text" /> <small id="motherlname"></small>
                     </div>
 
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Mother's Occupation  </label>
-                        <input id="motheroccupation" name="MotherOccupation" class="form-control" type="text" />
+                        <input name="MotherOccupation" class="form-control" type="text" /> <small id="motheroccupation"></small>
                     </div>
 
                     <div class="col-lg-3 feature_col">
                         <label> Mother's Phone Number  </label>
-                        <input id="mothercpnumber" name="MotherNumber" class="form-control" type="text" />
+                        <input name="MotherNumber" class="form-control" type="text" /> <small id="mothercpnumber"></small>
                     </div>
 
                 </div>
@@ -203,24 +241,24 @@
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Guardian First Name </label>
-                        <input id="guardianfname" name="GuardianFirstName" class="form-control" type="text" />
+                        <input name="GuardianFirstName" class="form-control" type="text" /> <small id="guardianfname"></small>
                     </div>
                     <!-- Features Item -->
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Guardian Last Name  </label>
-                        <input id="guardianlname" name="GuardianLastName" class="form-control" type="text" />
+                        <input name="GuardianLastName" class="form-control" type="text" /> <small id="guardianlname"></small>
                     </div>
 
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Guardian's Occupation  </label>
-                        <input id="guardianoccupation" name="GuardianNumber" class="form-control" type="text" />
+                        <input name="GuardianNumber" class="form-control" type="text" /> <small id="guardianoccupation"></small>
                     </div>
 
                     <div class="col-lg-3 feature_col">
                         <label> Guardian's Phone Number  </label>
-                        <input id="guardiancpnumber" name="GuardianOccupation" class="form-control" type="text" />
+                        <input name="GuardianOccupation" class="form-control" type="text" /> <small id="guardiancpnumber"></small>
                     </div>
 
                 </div>
@@ -235,24 +273,24 @@
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> Birth Certificate </label>
-                        <input id="bc" name="BirthCertificate" class="form-control" type="file" />
+                        <input name="BirthCertificate" class="form-control" type="file" />  <small id="bc"></small>
                     </div>
                     <!-- Features Item -->
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> F-137  </label>
-                        <input id="f137" name="Form137" class="form-control" type="file" />
+                        <input name="Form137" class="form-control" type="file" />  <small id="f137"></small>
                     </div>
 
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> F-138  </label>
-                        <input id="f138" name="Form138" class="form-control" type="file" />
+                        <input name="Form138" class="form-control" type="file" />  <small id="f138"></small>
                     </div>
 
                     <div class="col-lg-3 feature_col">
                         <label> Good Moral  </label>
-                        <input id="goodmoral" name="GoodMoral" class="form-control" type="file" />
+                        <input name="GoodMoral" class="form-control" type="file" />  <small id="goodmoral"></small>
                     </div>
 
                 </div>
@@ -262,11 +300,11 @@
                     <!-- Features Item -->
                     <div class="col-lg-3 feature_col">
                         <label> ID Picture </label>
-                        <input id="image" name="Image" class="form-control" type="file" />
+                        <input name="Image" class="form-control" type="file" /> <small id="image"></small>
                     </div>
                     <!-- Features Item -->
                     <!-- Features Item -->
-             
+
 
                 </div>
 
@@ -275,11 +313,11 @@
                 <input type="checkbox" />
                 <br />
                 <input class="btn btn-primary" type="submit" value="Enroll" />
-            </form>
+        </form>
 
 
-        </div>
-        </div>
+    </div>
+</div>
 
 
 <script>
@@ -290,23 +328,226 @@
 
         var form = $(this);
 
-        alert(form.serialize());
-          $.ajax({
-              type: "POST",
-               processData: false,
+
+        $.ajax({
+            type: "POST",
+            processData: false,
             contentType: false,
-           url: '/User/StudentEnroll',
-           data:  new FormData(this), 
-           success: function(data)
-           {
-               alert(data);
-           }
-         });
-      
+            url: '/User/StudentEnroll',
+            data: new FormData(this),
+            success: function (data) {
+
+
+
+                if (data.split(',').includes("lrn_error")) {
+                    $('#lrn').html("LRN should be 12 numerical character");
+                } else if (data.split(',').includes("lrn_number_only")) {
+                    $('#lrn').html("Number only");
+                } else if (data.split(',').includes("lrn_exist")) {
+                    $('#lrn').html("LRN already existed");
+                } else {
+                    $('#lrn').html("");
+                }
+
+
+
+                if (data.split(',').includes("fname")) {
+                    $('#fname').html("First name is required");
+                } else {
+                    $('#fname').html("");
+                }
+
+                if (data.split(',').includes("mname")) {
+                    $('#mname').html("Middle name is required");
+                } else {
+                    $('#mname').html("");
+                }
+
+                if (data.split(',').includes("lname")) {
+                    $('#lname').html("Last name is required");
+                } else {
+                    $('#lname').html("");
+                }
+
+
+
+                if (data.split(',').includes("address")) {
+                    $('#address').html("Address is required");
+                } else {
+                    $('#address').html("");
+                }
+
+                if (data.split(',').includes("barangay")) {
+                    $('#barangay').html("Barangay is required");
+                } else {
+                    $('#barangay').html("");
+                }
+
+                if (data.split(',').includes("city")) {
+                    $('#city').html("City is required");
+                } else {
+                    $('#city').html("");
+                }
+
+
+                if (data.split(',').includes("cpnumber")) {
+                    $('#cpnumber').html("Cp number is required");
+                } else {
+                    $('#cpnumber').html("");
+                }
+
+
+
+
+                if (data.split(',').includes("fatherfname")) {
+                    $('#fatherfname').html("Father's first name is required");
+                } else {
+                    $('#fatherfname').html("");
+                }
+
+
+                if (data.split(',').includes("fatherlname")) {
+                    $('#fatherlname').html("Father's last name is required");
+                } else {
+                    $('#fatherlname').html("");
+                }
+
+
+
+
+
+
+
+                if (data.split(',').includes("motherfname")) {
+                    $('#motherfname').html("Mother's first name is required");
+                } else {
+                    $('#motherfname').html("");
+                }
+
+
+                if (data.split(',').includes("motherlname")) {
+                    $('#motherlname').html("Mother's last name is required");
+                } else {
+                    $('#motherlname').html("");
+                }
+
+
+                if (data.split(',').includes("motheroccupation")) {
+                    $('#motheroccupation').html("");
+                } else {
+                    $('#motheroccupation').html("");
+                }
+
+
+                if (data.split(',').includes("mothercpnumber")) {
+                    $('#mothercpnumber').html("");
+                } else {
+                    $('#mothercpnumber').html("");
+                }
+
+
+
+                if (data.split(',').includes("guardianfname")) {
+                    $('#guardianfname').html("");
+                } else {
+                    $('#guardianfname').html("");
+                }
+
+
+
+
+                if (data.split(',').includes("guardianlname")) {
+                    $('#guardianlname').html("");
+                } else {
+                    $('#guardianlname').html("");
+                }
+
+
+
+                if (data.split(',').includes("guardianoccupation")) {
+                    $('#guardianoccupation').html("");
+                } else {
+                    $('#guardianoccupation').html("");
+                }
+
+
+
+
+                if (data.split(',').includes("guardiancpnumber")) {
+                    $('#guardiancpnumber').html("");
+                } else {
+                    $('#guardiancpnumber').html("");
+                }
+
+
+                if (data.split(',').includes("bc")) {
+                    $('#bc').html("");
+                } else {
+                    $('#bc').html("");
+                }
+
+                if (data.split(',').includes("f137")) {
+                    $('#f137').html("");
+                } else {
+                    $('#f137').html("");
+                }
+
+                if (data.split(',').includes("f138")) {
+                    $('#f138').html("");
+                } else {
+                    $('#f138').html("");
+                }
+
+                if (data.split(',').includes("goodmoral")) {
+                    $('#goodmoral').html("");
+                } else {
+                    $('#goodmoral').html("");
+                }
+
+
+                if (data.split(',').includes("image")) {
+                    $('#image').html("");
+                } else {
+                    $('#image').html("");
+                }
+
+                alert(data);
+
+                if (data.split(',').includes("email_exist")) {
+                    $('#email').html("Email already exist");
+                }
+                else if (data.split(',').includes("email")) {
+                    $('#email').html("Email is required");
+                } else if (data.split(',').includes("invalid_email")) {
+                    $('#email').html("This is not a valid email");
+                } else {
+                    $('#email').html("");
+                }
+
+
+
+                if (data == "success") {
+                    $('#success').html("  <div class='alert alert-success'>Successfully enrolled. Please wait for your account to be active.</div>");
+                    $("#enrollment-form")[0].reset();
+                }
+
+
+                document.getElementById("container").scrollIntoView();
+
+            }
+        });
+
         return false;
 
     }
 
 
 
+</script>
+
+
+<script>
+    $('#datepicker').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
 </script>

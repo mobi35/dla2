@@ -4,7 +4,8 @@
         window.open("../../../../", "_self");
     } 
       
-  
+
+
 
 </script>
 
@@ -51,7 +52,7 @@
                 </a>
             </div>
             <div class="sidebar-wrapper">
-                <ul class="nav">
+                <ul style="display:none;" id="teacher-panel" class="nav">
                     <li id="studentnav">
                         <a asp-action="Index" asp-controller="User">
                             <i class="nc-icon nc-single-02"></i>
@@ -73,8 +74,34 @@
                         </a>
                     </li>
 
+                    <li id="sectionnav">
+                        <a asp-action="Index" asp-controller="Section">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Section</p>
+                        </a>
+                    </li>
 
                 </ul>
+
+
+                <ul style="display:none;" id="student-panel" class="nav">
+                   
+                    <li id="updatedetails">
+                        <a asp-action="Settings" asp-controller="Student">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Update Details</p>
+                        </a>
+                    </li>
+
+                    <li id="changepass">
+                        <a asp-action="ChangePassword" asp-controller="User">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Change Password</p>
+                        </a>
+                    </li>
+
+                </ul>
+
             </div>
         </div>
         <div class="main-panel">
@@ -211,8 +238,19 @@
 
 <script>
 
-      document.getElementById("username").innerHTML = sessionStorage.getItem("username");
+      document.getElementById("username").innerHTML = sessionStorage.getItem("username") + " - " + sessionStorage.getItem("role");
 
+        if (sessionStorage.getItem("role") == "student") {
+            $('#teacher-panel').css("display", "none");
+        $('#student-panel').css("display", "block");
+   
+
+    } else if (sessionStorage.getItem("role") == "teacher") {
+         $('#teacher-panel').css("display", "block");
+        $('#student-panel').css("display", "none");
+     
+
+    } 
 
     function LogoutNow() {
 

@@ -39,6 +39,7 @@ namespace DLA_Thesis
             services.AddScoped<IScheduleRepository, ScheduleRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
+            services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             //   services.AddDbContext<MessengerDBContext>(options => options.UseInMemoryDatabase("MessengerDBContext"));

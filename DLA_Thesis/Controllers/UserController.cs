@@ -140,12 +140,154 @@ namespace DLA_Thesis.Controllers
                 student.GoodMoralName = uniqueName;
             }
             student.Password = Guid.NewGuid().ToString();
-            studentRepo.Create(student);
-
           
-            return "";
+
+            List<string> validation = new List<string>();
+
+
+            var checkLRN = studentRepo.GetAll().Where(a => a.LRN == student.LRN).ToList();
+
+            if (student.LRN == null || student.LRN.ToString().Length != 12 )
+                validation.Add("lrn_error");
+            else if (!student.LRN.ToString().Any(char.IsDigit))
+                validation.Add("lrn_number_only");
+            else if (checkLRN.Count > 0)
+                validation.Add("lrn_exist");
+
+            if (student.FirstName == null)
+                validation.Add("fname");
+
+            if (student.MiddleName == null)
+                validation.Add("mname");
+
+            if (student.LastName == null)
+                validation.Add("lname");
+
+
+
+            if (student.Address == null)
+                validation.Add("address");
+
+            if (student.Barangay == null)
+                validation.Add("barangay");
+
+            if (student.City == null)
+                validation.Add("city");
+
+
+            if (student.Phonenumber== null)
+                validation.Add("cpnumber");
+
+            if (student.FatherFirstName == null)
+                validation.Add("fatherfname");
+
+            if (student.FatherLastName == null)
+                validation.Add("fatherlname");
+
+
+            if (student.MotherFirstName == null)
+                validation.Add("motherfname");
+
+            if (student.MotherLastName == null)
+                validation.Add("motherlname");
+
+            var checkEmail = studentRepo.GetAll().Where(a => a.EmailAddress == student.EmailAddress).ToList();
+            if (checkEmail.Count > 0)
+                validation.Add("email_exist");
+            else if (student.EmailAddress == null)
+                validation.Add("email");
+            else  if (!IsValidEmail(student.EmailAddress))
+                   validation.Add("invalid_email");
+
+                
+
+   
+
+
+            if (validation.Count != 0) { 
+                string validationList = string.Join(",", validation);
+                return validationList;
+            }
+
+            try
+            {
+                // Output Registered to the Register Page if the data is inserted properly.
+                //This block of code is for sending mail
+
+                GMailer.GmailUsername = "charlesbarney02@gmail.com";
+                GMailer.GmailPassword = "Asakaboi35";
+                GMailer mailer = new GMailer();
+                // passing the email address of the newly registered user
+                mailer.ToEmail = student.EmailAddress;
+                // Mail Subject
+                mailer.Subject = "DLA Registration";
+                //Mail Body
+                mailer.Body += "Hi " + student.FirstName + " " + student.LastName;
+                mailer.Body += "<br> Here's your username : " + student.LRN;
+                mailer.Body += "<br> Here's your password : " + student.Password;
+
+                mailer.Body += "<br> You can change your password anytime in your settings. ";
+                mailer.IsHtml = true;
+                mailer.Send();
+            }
+            catch (Exception e)
+            {
+
+
+            }
+
+            studentRepo.Create(student);
+            return "success";
         }
 
-        
+
+
+
+        bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public IActionResult ChangePassword()
+        {
+
+            return View();
+        }
+
+ 
+        public string ChangePasswordExecute(string lrn, string oldpass, string newpass)
+        {
+
+            List<string> validation = new List<string>();
+
+            var studentModel = studentRepo.GetAll().AsQueryable().FirstOrDefault(a => a.LRN == lrn);
+
+
+            if (studentModel.Password != oldpass)
+                validation.Add("wrong_old_password");
+
+            if (validation.Count > 0)
+            {
+                string validationList = string.Join(",", validation);
+                return validationList;
+            }
+
+            studentModel.Password = newpass;
+            studentRepo.Update(studentModel);
+            return "success";
+        }
+
+
+
+
+
     }
 }

@@ -25,15 +25,21 @@ namespace DLA_Thesis.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("DateAdded");
+
                     b.Property<float>("GradeLevel");
 
                     b.Property<int>("Grading");
 
-                    b.Property<string>("StudentCode");
+                    b.Property<string>("SectionID");
+
+                    b.Property<string>("StudentLRN");
 
                     b.Property<string>("SubjectCode");
 
-                    b.Property<string>("TeacherCode");
+                    b.Property<float>("SubjectGrade");
+
+                    b.Property<string>("TeacherEmail");
 
                     b.HasKey("GradesID");
 
@@ -51,6 +57,25 @@ namespace DLA_Thesis.Migrations
                     b.HasKey("ScheduleID");
 
                     b.ToTable("Schedules");
+                });
+
+            modelBuilder.Entity("DLA_Thesis.Data.Model.Section", b =>
+                {
+                    b.Property<int>("SectionID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Grade");
+
+                    b.Property<string>("SectionName");
+
+                    b.Property<int>("SectionNumber");
+
+                    b.Property<int>("TeacherID");
+
+                    b.HasKey("SectionID");
+
+                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("DLA_Thesis.Data.Model.Student", b =>
@@ -103,7 +128,7 @@ namespace DLA_Thesis.Migrations
 
                     b.Property<string>("ImageName");
 
-                    b.Property<int>("LRN");
+                    b.Property<string>("LRN");
 
                     b.Property<string>("LastName");
 
