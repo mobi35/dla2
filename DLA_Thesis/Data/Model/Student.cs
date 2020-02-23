@@ -92,7 +92,7 @@ namespace DLA_Thesis.Data.Model
         public string Status { get; set; }
 
         
-
+        public int SectionID { get; set; }
 
 
 

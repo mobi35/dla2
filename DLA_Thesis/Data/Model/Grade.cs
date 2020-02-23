@@ -13,7 +13,7 @@ namespace DLA_Thesis.Data.Model
      
         public string StudentLRN { get; set; }
         public string TeacherEmail { get; set; }
-        public string SectionID { get; set; }
+        public int SectionID { get; set; }
 
         public string SubjectCode { get; set; }
         public float GradeLevel { get; set; }

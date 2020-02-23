@@ -8,6 +8,8 @@ namespace DLA_Thesis.Models
 {
     public class TeacherSectionViewModel
     {
+        public List<Schedule> Schedule { get; set; }
+
         public List<Section> Section { get; set; }
         public List<Teacher> Teacher { get; set; }
     }

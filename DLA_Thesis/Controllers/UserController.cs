@@ -12,15 +12,25 @@ namespace DLA_Thesis.Controllers
 {
     public class UserController : Controller
     {
+        private readonly IFeeRepository feeRepo;
+        private readonly IBillingRepository billingRepo;
+        private readonly ISubjectRepository subjectRepo;
+        private readonly IGradeRepository gradeRepo;
         private readonly ITeacherRepository teacherRepo;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IStudentRepository studentRepo;
+        private readonly ISectionRepository sectionRepo;
 
-        public UserController(ITeacherRepository teacherRepo, IHostingEnvironment hostingEnvironment, IStudentRepository studentRepo)
+        public UserController( IFeeRepository feeRepo, IBillingRepository billingRepo,  ISubjectRepository subjectRepo ,IGradeRepository gradeRepo, ITeacherRepository teacherRepo, IHostingEnvironment hostingEnvironment, IStudentRepository studentRepo, ISectionRepository sectionRepo)
         {
+            this.feeRepo = feeRepo;
+            this.billingRepo = billingRepo;
+            this.subjectRepo = subjectRepo;
+            this.gradeRepo = gradeRepo;
             this.teacherRepo = teacherRepo;
             this.hostingEnvironment = hostingEnvironment;
             this.studentRepo = studentRepo;
+            this.sectionRepo = sectionRepo;
         }
         public IActionResult Index()
         {
@@ -48,11 +58,11 @@ namespace DLA_Thesis.Controllers
 
             if (studentRepo.FindStudent(a => a.LRN == student.LRN) != null)
                 return "LRN_exist";
-            else if (teacherRepo.FindTeacher(a => a.Email == student.EmailAddress) != null)
-                return "email_exist";
-
-
+           
             studentRepo.Create(student);
+
+        
+
             return "";
         }
 
@@ -69,8 +79,45 @@ namespace DLA_Thesis.Controllers
                 teacher.ImageName = uniqueName;
             }
 
+
+
+            if (teacherRepo.FindTeacher(a => a.Email == teacher.Email) != null)
+                return "email_exist";
+
+            foreach (var n in teacher.Skills.Split(",")) { 
+            if(!subjectRepo.GetAll().Select(a => a.SubjectName).Contains(n))
+                {
+                    return "no_subject";
+                }
+             }
             teacherRepo.Create(teacher);
             return "";
+        }
+
+        [HttpGet]
+        public JsonResult GetSection(int grade)
+        {
+
+            List<Section> sortedSectionList = new List<Section>();
+
+            var sections = sectionRepo.GetAll().Where(a => a.Grade == grade).ToList();
+
+            var student = studentRepo.GetAll().Where(a => a.CurrentGrade == grade).GroupBy(a => a.SectionID).Select(x => new {
+
+                SectionID = x.FirstOrDefault().SectionID,
+                Count = x.Count()
+
+            }).ToList();
+         
+            foreach (var s in student)
+            {
+
+                if (s.Count >= 40)
+                    sections.Remove(sectionRepo.FindSection(a => a.SectionID == s.SectionID));
+
+            }
+
+         return Json(sections);
         }
 
 
@@ -199,29 +246,35 @@ namespace DLA_Thesis.Controllers
             else  if (!IsValidEmail(student.EmailAddress))
                    validation.Add("invalid_email");
 
-                
 
-   
-
+          
+           
 
             if (validation.Count != 0) { 
                 string validationList = string.Join(",", validation);
                 return validationList;
             }
 
+            Billing billing = new Billing();
+
+
+            billing.BilledDate = DateTime.Now;
+            billing.Grade = student.CurrentGrade;
+            billing.LRN = student.LRN;
+            billing.Status = "Pending";
+
+
+            billingRepo.Create(billing);
+
             try
             {
-                // Output Registered to the Register Page if the data is inserted properly.
-                //This block of code is for sending mail
 
                 GMailer.GmailUsername = "charlesbarney02@gmail.com";
                 GMailer.GmailPassword = "Asakaboi35";
                 GMailer mailer = new GMailer();
-                // passing the email address of the newly registered user
+           
                 mailer.ToEmail = student.EmailAddress;
-                // Mail Subject
                 mailer.Subject = "DLA Registration";
-                //Mail Body
                 mailer.Body += "Hi " + student.FirstName + " " + student.LastName;
                 mailer.Body += "<br> Here's your username : " + student.LRN;
                 mailer.Body += "<br> Here's your password : " + student.Password;
@@ -240,8 +293,47 @@ namespace DLA_Thesis.Controllers
             return "success";
         }
 
+        public string AddSection(Student student)
+        {
+
+            var s = studentRepo.FindStudent(a => a.LRN == student.LRN);
+            s.SectionID = student.SectionID;
+            studentRepo.Update(s);
+
+            return "";
+        }
+
+        [HttpGet]
+        public JsonResult GetSectionInUser(string id)
+        {
+            var grade = studentRepo.FindStudent(a => a.LRN == id).CurrentGrade;
+            var sections = sectionRepo.GetAll().Where(a => a.Grade == grade).ToList();
+            var student = studentRepo.GetAll().Where(a => a.CurrentGrade == grade).GroupBy(a => a.SectionID).Select(x => new {
+
+                SectionID = x.FirstOrDefault().SectionID,
+                Count = x.Count()
+
+            }).ToList();
+
+            foreach (var s in student)
+            {
+
+                if (s.Count >= 40)
+                    sections.Remove(sectionRepo.FindSection(a => a.SectionID == s.SectionID));
+
+            }
 
 
+
+            return Json(sections);
+
+        }
+
+        [HttpGet]
+        public JsonResult GetSubject()
+        {
+            return Json(subjectRepo.GetAll().Select(a => a.SubjectName).ToList() );
+        }
 
         bool IsValidEmail(string email)
         {

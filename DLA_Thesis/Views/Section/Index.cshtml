@@ -55,19 +55,25 @@
                             }
                         </select>
                     </div>
+                  
+
+
+                
+
+
 
                 </div>
-                <div class="modal-footer">
-                    <div class="left-side">
-                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                    <div class="modal-footer">
+                        <div class="left-side">
+                            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="right-side">
+                            <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
+                        </div>
                     </div>
-                    <div class="divider"></div>
-                    <div class="right-side">
-                        <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
-                    </div>
-                </div>
 
-            </form>
+</form>
 
         </div>
     </div>
@@ -110,15 +116,24 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
-                    <div class="left-side">
-                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="right-side">
-                        <input  type="submit" class="btn btn-danger btn-simple" />
-                    </div>
+
+                <div class="form-group">
+                    <label>Slot</label>
+                    <input type="number" id="slot" class="form-control" />
+
                 </div>
+
+
+
+                    <div class="modal-footer">
+                        <div class="left-side">
+                            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="right-side">
+                            <input type="submit" class="btn btn-danger btn-simple" />
+                        </div>
+                    </div>
 
             </form>
 
@@ -170,36 +185,46 @@
                         @{
                             foreach (var m in Model.Section)
                             {
-                                <tr>
-                                    <td>@m.Grade</td>
-                                    <td>@m.SectionNumber</td>
-                                    <td>@m.SectionName</td>
-                                    <td>
-                                        @{
-                                            if (TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID) == null)
-                                            {
-                                                Html.Raw("N/A");
-                                            }
-                                            else
-                                            {
-                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).FirstName
-                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).MiddleName
-                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).LastName
-                                            }
+                        <tr>
+                            <td>@m.Grade</td>
+                            <td>@m.SectionNumber</td>
+                            <td>@m.SectionName</td>
+                            <td>
+                                @{
+                                    if (TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID) == null)
+                                    {
+                                        Html.Raw("N/A");
+                                    }
+                                    else
+                                    {
+                                        @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).FirstName
+                                        @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).MiddleName
+                                        @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).LastName
+                                    }
 
-                                        }
-
-
-                                    </td>
-
-                                    <td>
-                                        <button onclick="GetID(@m.SectionID)" class="btn btn-sm" data-toggle="modal" data-target="#edit-modal">
-                                            Edit Adviser
-                                        </button>
+                                }
 
 
-                                    </td>
-                                </tr>
+                            </td>
+
+                            <td>
+                                <button onclick="GetID(@m.SectionID)" class="btn btn-sm" data-toggle="modal" data-target="#edit-modal">
+                                    Edit Adviser
+                                </button>
+                            </td>
+                       
+                            <td>
+                                @{
+                                    if(m.TeacherID != 0) { 
+                                    <a asp-controller="Section" asp-action="RemoveAdvisory" asp-route-id="@m.TeacherID" class="btn btn-sm">
+                                        Remove Adviser
+                                    </a>
+                                    }
+
+                                }
+                            </td>
+
+                        </tr>
                             }
 
                         }
@@ -213,8 +238,16 @@
 
 
 <script>
-    $('#sectionnav').addClass('active');
 
+
+        
+
+
+
+
+
+    $('#sectionnav').addClass('active');
+    
 
     document.getElementById('section-form').onsubmit = function () {
 
@@ -227,7 +260,8 @@
         var adviser = $('#adviser_name').val();
         var grade = $('#grade').val();
 
-        alert(adviser);
+       
+      
         if (section_name == "" || section_number == "" || adviser == "" || grade == "") {
             alert("Please complete the fields");
             return false;
@@ -235,18 +269,29 @@
 
         student.append("SectionName", section_name);
         student.append("SectionNumber", section_number);
-        student.append("Adviser", adviser);
+        student.append("TeacherID", adviser);
         student.append("Grade", grade);
-
-
+    
+     
+     
+        
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/Section/Create');
         xhr.send(student);
 
         xhr.onreadystatechange = function () {
 
-
+            alert(xhr.responseText);
             if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.response.responseText == "existed") {
+                    alert("This section is already existed");
+                    return false;
+                }
+
+                   if (xhr.response.responseText == "existingteacher") {
+                    alert("This teacher is already existed");
+                    return false;
+                   }
 
                 if (xhr.responseText == "") {
                     alert("section added");
@@ -266,9 +311,6 @@
 
         var student = new FormData();
 
-
-
-    
         var sectionID = $('#section-id').val();
         var editTeacher = $('#edit-teacher-id').val();
 
@@ -349,6 +391,7 @@
     function GetID(id) {
         $('#section-id').val(id);
     }
+
 
 </script>
 

@@ -1,4 +1,8 @@
 ﻿@model List<Student>
+
+@using DLA_Thesis.Data.Model.Interface
+@inject ISectionRepository SectionRepository
+
 @{
     ViewData["Title"] = "Student";
     Layout = "~/Views/Shared/adminLayout.cshtml";
@@ -68,11 +72,18 @@
                     <div class="form-group">
                         <label>Grade</label>
                         <select class="form-control" id="grade">
+                            <option> </option>
                             <option>7</option>
                             <option>8</option>
                             <option>9</option>
                             <option>10</option>
                         </select>
+                    </div>
+                    <label>Section</label>
+                    <div id="section" class="form-group">
+
+
+
                     </div>
 
                     <div class="form-group">
@@ -112,8 +123,43 @@
 </div>
 
 <button class="btn btn-neutral" data-toggle="modal" data-target="#myModal">
-   Add Student
+    Add Student
 </button>
+
+
+
+
+<div class="modal fade" id="addSection" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="add-section-form" enctype="multipart/form-data">
+                <div class="modal-header">
+
+                    <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="lrn-section" />
+                    <label>Section</label>
+                    <div id="section-list" class="form-group">
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input id="register_student" type="submit" value="Update" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
 
 
 <style>
@@ -144,6 +190,7 @@
                             <th style="color:#51cbce;">LRN</th>
                             <th style="color:#51cbce;">Full Name</th>
                             <th style="color:#51cbce;">Grade</th>
+                            <th style="color:#51cbce;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -154,6 +201,18 @@
                                     <td>@m.LRN</td>
                                     <td>@m.FirstName @m.MiddleName @m.LastName</td>
                                     <td>@m.CurrentGrade</td>
+                                    <td>
+                                        @{
+
+                                            if (m.SectionID == 0)
+                                            {
+                                                <button onclick="AddNewSection(@m.LRN)" class="btn btn-neutral" data-toggle="modal" data-target="#addSection">
+                                                    Add Section
+                                                </button>
+                                            }
+
+                                        }
+                                    </td>
                                 </tr>
                             }
 
@@ -168,10 +227,96 @@
 
 
 <script>
+
+    document.getElementById('add-section-form').onsubmit = function () {
+
+
+        var form = new FormData();
+        var section = $('#student-section').val();
+        var id = $('#lrn-section').val();
+
+        form.append("SectionID", section);
+        form.append("LRN", id);
+
+        var XHTML = new XMLHttpRequest();
+        XHTML.open("POST", "/User/AddSection");
+        XHTML.send(form);
+
+        if (XHTML.readyState == 4 && XHTML.status == 200) {
+            alert(XHTML.responseText);
+                if (XHTML.responseText == "") {
+                    alert("Updated");
+                    window.open("../../User/Index", "_self");
+                }
+            }
+
+           return false;
+    }
+
+
+
+        function AddNewSection(id) {
+        var t = "";
+        $('#lrn-section').val(id);
+          $('#section-list').html('');
+        $.ajax({
+            url: '../User/GetSectionInUser',
+            type: 'get',
+            data:{ id: id },
+            success: function (e) {
+
+                t += '<select class="form-control" id="student-section" >';
+                for (var key in Object.keys(e)) {
+
+                    t += '<option value='+e[key].sectionID+'>'+e[key].sectionNumber+' - '+e[key].sectionName+'</option>';
+
+                }
+
+                t += '</select>';
+                $('#section-list').append(t);
+            }
+        });
+            return false;
+    }
+
+
+
+
+    $("#grade").change(function () {
+
+
+        var selectSection = "";
+        $('#section').html("");
+        $.ajax({
+
+            url: '/User/GetSection',
+            type: 'get',
+            data: { grade: $(this).val() },
+            success: function (e) {
+
+                selectSection += '<select id="section-list" class="form-control" >';
+                for (var key of Object.keys(e)) {
+                    selectSection += '<option value="' + e[key].sectionID + '">' + e[key].sectionNumber + ' - ' + e[key].sectionName + ' </option>';
+
+                }
+
+                selectSection += '</select>';
+
+                $('#section').append(selectSection);
+
+            }
+
+        });
+
+    });
+
+
     $('#studentnav').addClass('active');
 
 
     document.getElementById('studentRegistration').onsubmit = function () {
+
+
 
         var student = new FormData();
 
@@ -196,13 +341,17 @@
         var address = $('#address').val();
         var bdate = $('#bdate').val();
         var grade = $('#grade').val();
+        var sectionID = $('#section-list').val();
 
         if (lrn == "" || fname == "" || mname == "" || lname == "" || address == "" || bdate == "" || grade == "" || password == "" || rpassword == "") {
             alert("Please complete the fields");
             return false;
         }
 
-
+        if ($('#grade').val() == "") {
+            alert("nono");
+            return false;
+        }
         student.append("LRN", lrn);
         student.append("FirstName", fname);
         student.append("Password", password);
@@ -213,7 +362,8 @@
         student.append("BirthDate", bdate);
         student.append("CurrentGrade", grade);
         student.append("Gender", gender);
-    
+        student.append("SectionID", sectionID);
+
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/User/CreateStudent');
         xhr.send(student);
@@ -222,7 +372,11 @@
 
 
             if (xhr.readyState == 4 && xhr.status == 200) {
-                
+                if (xhr.responseText == "LRN_exist") {
+                    alert("LRN Already exist");
+                    return false;
+                }
+
                 if (xhr.responseText == "") {
                     alert("student added");
                     window.open("../../User/Index", "_self");
@@ -238,6 +392,10 @@
 
 
 <script>
+    
+
+
+
     $(document).ready(function () {
         $('#userList').DataTable({
 

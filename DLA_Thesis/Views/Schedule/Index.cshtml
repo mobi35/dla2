@@ -1,0 +1,547 @@
+﻿@model TeacherSectionViewModel
+@using DLA_Thesis.Data.Model.Interface
+@inject ITeacherRepository TeacherRepository
+@inject ISectionRepository SectionRepository
+@{
+    ViewData["Title"] = "Schedule List";
+    Layout = "~/Views/Shared/adminLayout.cshtml";
+}
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="section-form" enctype="multipart/form-data">
+                <div class="modal-header">
+
+                    <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <label>Grade</label>
+                        <select class="form-control" id="grade">
+                            <option></option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                        </select>
+                    </div>
+
+               
+
+                    <label>Section</label>
+                    <div id="section_number" >
+                   
+
+                    </div>
+
+
+                        <div class="form-group">
+                            <label>Teacher</label>
+                            <select class="form-control" id="adviser_name">
+                                @{
+
+                                    foreach (var t in Model.Teacher)
+                                    {
+                                        <option value="@t.TeacherID">@t.FirstName @t.MiddleName @t.LastName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <label>Subjects</label>
+                        <div id="subject_list" class="form-group">
+
+
+                        </div>
+
+
+                        <label>Starting-Time</label>
+                        <div class="form-group">
+                            <select id="start_time" class="form-control">
+                                <option>8:00 AM</option>
+                                <option>9:00 AM</option>
+                                <option>10:00 AM</option>
+                                <option>11:00 AM</option>
+                                <option>12:00 AM</option>
+                                <option>1:00 PM</option>
+                                <option>2:00 PM</option>
+                                <option>3:00 PM</option>
+                                <option>4:00 PM</option>
+                                <option>5:00 PM</option>
+                                <option>6:00 PM</option>
+                            </select>
+
+                        </div>
+
+                        <label>Ending-Time</label>
+                        <div class="form-group">
+
+                            <select id="end_time" class="form-control">
+                                <option>8:00 AM</option>
+                                <option>9:00 AM</option>
+                                <option>10:00 AM</option>
+                                <option>11:00 AM</option>
+                                <option>12:00 AM</option>
+                                <option>1:00 PM</option>
+                                <option>2:00 PM</option>
+                                <option>3:00 PM</option>
+                                <option>4:00 PM</option>
+                                <option>5:00 PM</option>
+                                <option>6:00 PM</option>
+                            </select>
+
+                        </div>
+
+
+
+                    </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-neutral" data-toggle="modal" data-target="#myModal">
+    Add Schedule
+</button>
+
+
+
+
+
+
+
+
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="edit-section-form" enctype="multipart/form-data">
+                <div class="modal-header">
+
+                    <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <label>Teacher</label>
+                        <input type="hidden" id="section-id" />
+                        <select class="form-control" id="edit-teacher-id">
+                            @{
+
+                                foreach (var t in Model.Teacher)
+                                {
+                                    <option value="@t.TeacherID">@t.FirstName @t.MiddleName @t.LastName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Slot</label>
+                    <input type="number" id="slot" class="form-control" />
+
+                </div>
+
+
+
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input type="submit" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<style>
+
+    .buttons-print {
+        border: none !important;
+        background-color: #51cbce !important;
+    }
+
+    .buttons-excel {
+        border: none !important;
+        background-color: #51cbce !important;
+    }
+
+    .buttons-pdf {
+        border: none !important;
+        background-color: #51cbce !important;
+    }
+</style>
+
+<div style="width: 100%; " class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="padding:2%;" class="card">
+                <table class="table table-striped table-bordered" style=" width:100%;" id="sectionList">
+                    <thead>
+                        <tr>
+                            <th style="color:#51cbce;">Grade</th>
+                            <th style="color:#51cbce;">Section Number / Section Name</th>
+                            <th style="color:#51cbce;">Subject</th>
+                            <th style="color:#51cbce;">Time</th>
+                            <th style="color:#51cbce;">Teacher</th>
+                            <th style="color:#51cbce;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var m in Model.Schedule)
+                            {
+                                <tr>
+                                    <td>@m.Grade</td>
+                                    <td>@m.SectionNumber - @m.SectionName</td>
+                                    <td>@m.SubjectName</td>
+                                    <td>@m.StartTime.ToShortTimeString() - @m.EndTime.ToShortTimeString()</td>
+
+                                    <td>
+                                        @{
+                                            if (TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID) == null)
+                                            {
+                                                Html.Raw("N/A");
+                                            }
+                                            else
+                                            {
+                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).FirstName
+                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).MiddleName
+                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).LastName
+                                            }
+
+                                        }
+
+
+                                    </td>
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+        $("#grade").change(function () {
+
+
+        var selectSection = "";
+        $('#section_number').html("");
+        $.ajax({
+
+            url: '/User/GetSection',
+            type: 'get',
+            data: { grade: $(this).val() },
+            success: function (e) {
+
+                selectSection += '<select id="section-list" class="form-control" >';
+                for (var key of Object.keys(e)) {
+                    selectSection += '<option value="' + e[key].sectionID + '">' + e[key].sectionNumber + ' - ' + e[key].sectionName + ' </option>';
+
+                }
+
+                selectSection += '</select>';
+
+                $('#section_number').append(selectSection);
+
+            }
+
+        });
+
+    });
+
+
+
+    $('#subject_list').html("");
+    var teacher = new FormData();
+    var teacherID = $('#adviser_name').val();
+
+    teacher.append("TeacherID", teacherID);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/Section/GetSubject');
+    xhr.send(teacher);
+
+    xhr.onreadystatechange = function () {
+
+
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var subjects = "<select id='subject-for-teacher'  class='form-control'>'";
+
+            var subj = JSON.parse(xhr.responseText);
+
+            subj.forEach(function (e) {
+
+                subjects += '<option> ' + e + ' </option>';
+
+            });
+
+
+            subjects += "</select>";
+
+            $('#subject_list').append(subjects);
+
+        }
+    }
+
+
+
+
+
+    $('#adviser_name').change(function () {
+
+        $('#subject_list').html("");
+        var teacher = new FormData();
+        var teacherID = $(this).val();
+
+        teacher.append("TeacherID", teacherID);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Section/GetSubject');
+        xhr.send(teacher);
+
+        xhr.onreadystatechange = function () {
+
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var subjects = "<select id='subject-for-teacher'  class='form-control'>'";
+
+                var subj = JSON.parse(xhr.responseText);
+
+                subj.forEach(function (e) {
+
+                    subjects += '<option> ' + e + ' </option>';
+
+                });
+
+
+                subjects += "</select>";
+
+                $('#subject_list').append(subjects);
+
+            }
+        }
+
+
+    });
+
+
+
+    document.getElementById('section-form').onsubmit = function () {
+
+        var student = new FormData();
+
+    
+        var section_number = $('#section-list').val();
+        var adviser = $('#adviser_name').val();
+        var grade = $('#grade').val();
+
+        var startTime = $('#start_time').val();
+
+        var endTime = $('#end_time').val();
+
+        var subjectForTeacher = $('#subject-for-teacher').val();
+
+        var slot = $('#slot').val();
+
+        if ( adviser == "" || grade == "") {
+            alert("Please complete the fields");
+            return false;
+        }
+
+   
+        student.append("SectionNumber", section_number);
+        student.append("TeacherID", adviser);
+        student.append("Grade", grade);
+        student.append("Slot", slot);
+
+        student.append("StartTime", startTime);
+        student.append("EndTime", endTime);
+        student.append("SubjectName", subjectForTeacher);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Schedule/Create');
+        xhr.send(student);
+
+        xhr.onreadystatechange = function () {
+
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText == "time_discrepancy") {
+                    alert("There's already schedule at this time.");
+                    return false;
+                }
+
+                if (xhr.responseText == "subject_exist") {
+                    alert("This section has already this kind of subject.");
+                    return false;
+                }
+
+                  if (xhr.responseText == "time_error") {
+                    alert("The ending date must be greater than the starting date");
+                    return false;
+                }
+
+                if (xhr.responseText == "") {
+                    alert("schedule added");
+                    window.open("../../Schedule/Index", "_self");
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+
+
+
+    document.getElementById('edit-section-form').onsubmit = function () {
+
+        var student = new FormData();
+
+        var sectionID = $('#section-id').val();
+        var editTeacher = $('#edit-teacher-id').val();
+
+
+
+        student.append("SectionID", sectionID);
+        student.append("TeacherID", editTeacher);
+
+
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Section/UpdateTeacher');
+        xhr.send(student);
+
+        xhr.onreadystatechange = function () {
+
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+
+                if (xhr.responseText == "") {
+                    alert("teacher updated");
+                    window.open("../../Schedule/Index", "_self");
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+
+
+
+
+
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#sectionList').DataTable({
+
+            responsive: true,
+
+            "lengthMenu": [50, 100, 500, 1000, 2000, 5000, 10000, 50000, 100000],
+            "order": [],
+            "sScrollX": "100%",
+            "scrollCollapse": true,
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend(
+                                '<img style= src="~/Images/activefinancelogo.png"  style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }, 'excelHtml5', {
+                    extend: 'pdf',
+                    download: 'open',
+                }
+            ]
+
+        });
+    });
+
+
+
+
+    function GetID(id) {
+        $('#section-id').val(id);
+    }
+
+
+  $('#schedulenav').addClass('active');
+
+</script>
+
+<script src="~/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+<script src="~/DataTables-1.10.18/js/dataTables.buttons.min.js"></script>
+<script src="~/DataTables-1.10.18/js/buttons.print.min.js"></script>
+
+<script src="~/DataTables-1.10.18/js/pdfmake.min.js"></script>
+<script src="~/DataTables-1.10.18/js/vfs_fonts.js"></script>
+<script src="~/DataTables-1.10.18/js/buttons.html5.min.js"></script>
+<script src="~/DataTables-1.10.18/js/jszip.min.js"></script>
+<script src="~/DataTables-1.10.18/js/dataTables.responsive.min.js"></script>
+<script src="~/DataTables-1.10.18/js/responsive.bootstrap4.min.js"></script>
+
+<link href="~/DataTables-1.10.18/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/DataTables-1.10.18/css/button.css" rel="stylesheet" />
+<script src="~/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>
+

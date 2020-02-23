@@ -11,13 +11,14 @@ namespace DLA_Thesis.Controllers
 {
     public class StudentController : Controller
     {
-
+        private readonly IGradeRepository gradeRepo;
         private readonly ITeacherRepository teacherRepo;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IStudentRepository studentRepo;
 
-        public StudentController(ITeacherRepository teacherRepo, IHostingEnvironment hostingEnvironment, IStudentRepository studentRepo)
+        public StudentController(IGradeRepository gradeRepo,  ITeacherRepository teacherRepo, IHostingEnvironment hostingEnvironment, IStudentRepository studentRepo)
         {
+            this.gradeRepo = gradeRepo;
             this.teacherRepo = teacherRepo;
             this.hostingEnvironment = hostingEnvironment;
             this.studentRepo = studentRepo;
@@ -134,6 +135,22 @@ namespace DLA_Thesis.Controllers
 
             studentRepo.Update(updateStudentModel);
             return "success";
+        }
+
+        public IActionResult Grades()
+        {
+        
+
+
+            return View();
+        }
+
+
+        public JsonResult GetGrades(string username)
+        {
+            var student = studentRepo.FindStudent(a => a.LRN == username);
+            var grades = gradeRepo.GetAll().Where(a => a.StudentLRN == username).ToList();
+            return Json(grades);
         }
 
 

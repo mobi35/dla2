@@ -1,0 +1,212 @@
+﻿@using DLA_Thesis.Data.Model.Interface
+@inject ITeacherRepository TeacherRepository
+@inject ISectionRepository SectionRepository
+@{
+    ViewData["Title"] = "Grades";
+    Layout = "~/Views/Shared/adminLayout.cshtml";
+}
+
+<script>
+    var username = sessionStorage.getItem("username");
+
+    var t = "";
+     $('#tbody').html('');
+    $.ajax({
+          
+        url: '/Student/GetGrades',
+        type: 'GET',
+        data:{ username: username },
+        success: function (e) {
+
+         
+
+            for (var key in Object.keys(e)) {
+                t += '<tr>';
+                t += '<td>'+e[key].subjectCode+'</td>';
+                t += '<td>'+e[key].grading+'</td>';
+                t += '<td>'+e[key].gradeLevel+'</td>';
+                t += '<td>' + e[key].teacherEmail + '</td>';
+                  t += '<td>'+e[key].subjectGrade+'</td>';
+                t += '</tr>';
+            }
+
+            $('#tbody').append(t);
+
+          
+
+        }
+
+
+    });
+
+
+   
+</script>
+
+
+
+<div style="width: 100%; " class="content">
+    <div class="row">
+        <div class="col-md-12">
+            
+            <br />
+
+            <div style="padding:2%;" class="card">
+                <div class="row">
+                    <button id="first" class="btn btn-secondary">First Grading</button> &nbsp;&nbsp;&nbsp;
+                    <button id="second" class="btn btn-secondary">Second Grading</button>&nbsp;&nbsp;&nbsp;
+                    <button id="third" class="btn btn-secondary">Third Grading</button>&nbsp;&nbsp;&nbsp;
+                    <button id="fourth" class="btn btn-secondary">Fourth Grading</button>&nbsp;&nbsp;&nbsp;
+                </div>
+                <br />
+                <table class="table table-striped table-bordered" style=" width:100%;" id="gradeList">
+                    <thead>
+                        <tr>
+                            <th style="color:#51cbce;">Subject</th>
+                            <th style="color:#51cbce;">Grading</th>
+                            <th style="color:#51cbce;">Grade</th>
+                            <th style="color:#51cbce;">Adviser</th>
+                            <th style="color:#51cbce;">Final Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    function ClearSelect() {
+
+
+        $('#first').removeClass('btn-primary');
+        $('#second').removeClass('btn-primary');
+        $('#third').removeClass('btn-primary');
+        $('#fourth').removeClass('btn-primary');
+
+
+         $('#first').addClass('btn-secondary');
+        $('#second').addClass('btn-secondary');
+        $('#third').addClass('btn-secondary');
+        $('#fourth').addClass('btn-secondary');
+
+    }
+
+    $(document).ready(function () {
+
+    
+       
+       var table = $('#gradeList').DataTable({
+
+            responsive: true,
+
+            "lengthMenu": [50, 100, 500, 1000, 2000, 5000, 10000, 50000, 100000],
+            "order": [],
+            "sScrollX": "100%",
+            "scrollCollapse": true,
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend(
+                                '<img style= src="~/Images/activefinancelogo.png"  style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }, 'excelHtml5', {
+                    extend: 'pdf',
+                    download: 'open',
+                }
+            ]
+
+       });
+
+
+
+        $('#first').click(function () {
+
+             table
+                .columns( 1 )
+                .search( "1" )
+                .draw();
+
+            ClearSelect();
+           $('#first').addClass('btn-primary');
+         
+        });
+
+          $('#second').click(function () {
+
+             table
+                .columns( 1 )
+                .search( "2" )
+                .draw();
+
+           ClearSelect();
+           $('#second').addClass('btn-primary');
+         
+
+          });
+
+          $('#third').click(function () {
+
+             table
+                .columns( 1 )
+                .search( "3" )
+                .draw();
+
+                  ClearSelect();
+           $('#third').addClass('btn-primary');
+          });
+
+          $('#fourth').click(function () {
+
+             table
+                .columns( 1 )
+                .search( "4" )
+                .draw();
+             ClearSelect();
+           $('#fourth').addClass('btn-primary');
+        });
+
+    });
+
+
+
+
+
+
+        $('#mygrades').addClass('active');
+
+   
+</script>
+
+<script src="~/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+<script src="~/DataTables-1.10.18/js/dataTables.buttons.min.js"></script>
+<script src="~/DataTables-1.10.18/js/buttons.print.min.js"></script>
+
+<script src="~/DataTables-1.10.18/js/pdfmake.min.js"></script>
+<script src="~/DataTables-1.10.18/js/vfs_fonts.js"></script>
+<script src="~/DataTables-1.10.18/js/buttons.html5.min.js"></script>
+<script src="~/DataTables-1.10.18/js/jszip.min.js"></script>
+<script src="~/DataTables-1.10.18/js/dataTables.responsive.min.js"></script>
+<script src="~/DataTables-1.10.18/js/responsive.bootstrap4.min.js"></script>
+
+<link href="~/DataTables-1.10.18/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/DataTables-1.10.18/css/button.css" rel="stylesheet" />
+<script src="~/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>
+

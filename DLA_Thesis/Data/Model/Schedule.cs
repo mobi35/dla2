@@ -10,8 +10,16 @@ namespace DLA_Thesis.Data.Model
     {
         [Key]
         public int ScheduleID { get; set; }
-        public string Day { get; set; }
-     
-     
+        public int Grade { get; set; }
+        public int SectionNumber { get; set; }
+        public string SectionName { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public int TeacherID { get; set; }
+        public int Slot { get; set; }
+
+        public string SubjectName { get; set; }
+
+
     }
 }

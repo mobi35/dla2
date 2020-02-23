@@ -75,3 +75,10 @@ C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Vie
 C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Student\Settings.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\User\ChangePassword.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Section\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Student\Grades.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Teacher\AssignedSection.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Schedule\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Fee\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Billing\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Schedule\Student.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\DLA\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Billing\Student.cshtml.g.cs

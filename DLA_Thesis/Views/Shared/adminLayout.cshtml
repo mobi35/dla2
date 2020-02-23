@@ -1,9 +1,10 @@
-﻿<script>
-    
+﻿
+<script>
+
     if (sessionStorage.getItem("username") == null) {
         window.open("../../../../", "_self");
-    } 
-      
+    }
+
 
 
 
@@ -45,7 +46,7 @@
                     </div>
                 </a>
                 <a href="#" style="font-size:13px;" class="simple-text logo-normal">
-                    Divine Light Academy  
+                    Divine Light Academy
                     <!-- <div class="logo-image-big">
                       <img src="../assets/img/logo-big.png">
                     </div> -->
@@ -59,6 +60,12 @@
                             <p>Student</p>
                         </a>
                     </li>
+
+                    <li id="assignedsubject">
+
+                    </li>
+
+
 
                     <li id="teachernav">
                         <a asp-action="Teacher" asp-controller="User">
@@ -74,6 +81,13 @@
                         </a>
                     </li>
 
+                    <li id="schedulenav">
+                        <a asp-action="Index" asp-controller="Schedule">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Schedule</p>
+                        </a>
+                    </li>
+
                     <li id="sectionnav">
                         <a asp-action="Index" asp-controller="Section">
                             <i class="nc-icon nc-single-02"></i>
@@ -81,11 +95,46 @@
                         </a>
                     </li>
 
+                    <li id="billing">
+                        <a asp-action="Index" asp-controller="Billing">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Billing</p>
+                        </a>
+                    </li>
+
+                    <li id="fee">
+                        <a asp-action="Index" asp-controller="Fee">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Fees</p>
+                        </a>
+                    </li>
+
                 </ul>
 
 
                 <ul style="display:none;" id="student-panel" class="nav">
-                   
+
+                    <li id="mysched">
+                        <a asp-action="Student" asp-controller="Schedule">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>My Schedule</p>
+                        </a>
+                    </li>
+
+                    <li id="mybilling">
+                        <a asp-action="Student" asp-controller="Billing">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>My BIllings</p>
+                        </a>
+                    </li>
+
+                    <li id="mygrades">
+                        <a asp-action="Grades" asp-controller="Student">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>My Grades</p>
+                        </a>
+                    </li>
+
                     <li id="updatedetails">
                         <a asp-action="Settings" asp-controller="Student">
                             <i class="nc-icon nc-single-02"></i>
@@ -107,7 +156,7 @@
         <div class="main-panel">
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-           
+
                 <div class="container-fluid">
 
 
@@ -143,11 +192,11 @@
                                     </p>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                
+
                                     <a class="dropdown-item" onclick="LogoutNow()" href="#">Logout</a>
                                 </div>
                             </li>
-                          
+
                         </ul>
                     </div>
                 </div>
@@ -187,14 +236,9 @@
                         <nav class="footer-nav">
                             <ul>
                                 <li>
-                                    <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>
+                                    <a href="#" target="_blank">Divine Light Academy</a>
                                 </li>
-                                <li>
-                                    <a href="http://blog.creative-tim.com/" target="_blank">Blog</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.creative-tim.com/license" target="_blank">Licenses</a>
-                                </li>
+                             
                             </ul>
                         </nav>
                         <div class="credits ml-auto">
@@ -202,7 +246,7 @@
                                 ©
                                 <script>
                                     document.write(new Date().getFullYear())
-                                </script>, made with <i class="fa fa-heart heart"></i> by Creative Tim
+                                </script>, made with <i class="fa fa-heart heart"></i> Divine Light Academy
                             </span>
                         </div>
                     </div>
@@ -238,25 +282,34 @@
 
 <script>
 
-      document.getElementById("username").innerHTML = sessionStorage.getItem("username") + " - " + sessionStorage.getItem("role");
 
-        if (sessionStorage.getItem("role") == "student") {
-            $('#teacher-panel').css("display", "none");
+
+    document.getElementById("username").innerHTML = sessionStorage.getItem("username") + " - " + sessionStorage.getItem("role");
+
+    if (sessionStorage.getItem("role") == "student") {
+        $('#teacher-panel').css("display", "none");
         $('#student-panel').css("display", "block");
-   
+
 
     } else if (sessionStorage.getItem("role") == "teacher") {
-         $('#teacher-panel').css("display", "block");
+        $('#teacher-panel').css("display", "block");
         $('#student-panel').css("display", "none");
-     
 
-    } 
+
+    }
 
     function LogoutNow() {
 
         sessionStorage.clear();
-            window.open("../../../../", "_self");
+        window.open("../../../../", "_self");
     }
 
 
+</script>
+
+<script>
+    $('#assignedsubject').append(' <a href="../../Teacher/AssignedSection?email=' + sessionStorage.getItem("username") + ' " ">' +
+        '   <i class="nc-icon nc-single-02"></i>' +
+        '    <p>Assigned Subject</p>' +
+        ' </a>');
 </script>
