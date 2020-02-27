@@ -91,10 +91,11 @@ namespace DLA_Thesis.Controllers
                 {
                    
                     Grade gradeModel = new Grade();
-                    try {
+                    
+                    if( data.LRN.ToCharArray().Any(char.IsDigit) && MathF.Floor( float.Parse( data.Grade.ToString())).ToString().ToCharArray().Any(char.IsDigit)) { 
                       
                     gradeModel.StudentLRN = data.LRN;
-                   gradeModel.SubjectGrade = float.Parse( data.Grade );
+                   gradeModel.SubjectGrade = float.Parse( data.Grade.ToString() );
                     gradeModel.Grading = grades.Grading;
                     var getUser = studentRepo.FindStudent(a => a.LRN == data.LRN);
                     gradeModel.GradeLevel = getUser.CurrentGrade;
@@ -111,14 +112,10 @@ namespace DLA_Thesis.Controllers
                         {
                             gradeRepo.Delete(checkGrade);
                         }
+                        gradeRepo.Create(gradeModel);
+
 
                     }
-                    catch(Exception e)
-                    {
-
-                    }
-                    gradeRepo.Create(gradeModel);
-
 
                 }
 

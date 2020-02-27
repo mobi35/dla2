@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Adrian Radores\\Desktop\\DLA\\DLA_Thesis\\DLA_Thesis.csproj": {}
+    "C:\\Users\\Adrian Radores\\Desktop\\lyn\\dla\\DLA_Thesis\\DLA_Thesis.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Adrian Radores\\Desktop\\DLA\\DLA_Thesis\\DLA_Thesis.csproj": {
+    "C:\\Users\\Adrian Radores\\Desktop\\lyn\\dla\\DLA_Thesis\\DLA_Thesis.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Adrian Radores\\Desktop\\DLA\\DLA_Thesis\\DLA_Thesis.csproj",
+        "projectUniqueName": "C:\\Users\\Adrian Radores\\Desktop\\lyn\\dla\\DLA_Thesis\\DLA_Thesis.csproj",
         "projectName": "DLA_Thesis",
-        "projectPath": "C:\\Users\\Adrian Radores\\Desktop\\DLA\\DLA_Thesis\\DLA_Thesis.csproj",
+        "projectPath": "C:\\Users\\Adrian Radores\\Desktop\\lyn\\dla\\DLA_Thesis\\DLA_Thesis.csproj",
         "packagesPath": "C:\\Users\\Adrian Radores\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Adrian Radores\\Desktop\\DLA\\DLA_Thesis\\obj\\",
+        "outputPath": "C:\\Users\\Adrian Radores\\Desktop\\lyn\\dla\\DLA_Thesis\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

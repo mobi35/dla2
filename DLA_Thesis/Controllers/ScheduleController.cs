@@ -73,14 +73,25 @@ namespace DLA_Thesis.Controllers
         [HttpPost]
         public string Create(Schedule schedule)
         {
-
+           //GET SECTION FIRST
             var getSection = sectionRepo.FindSection(a => a.SectionID == schedule.SectionNumber);
+
+            var checkSchedTeacher = scheduleRepo.
+          FindSchedule(a => a.StartTime >= schedule.StartTime && a.EndTime <= schedule.StartTime && a.TeacherID == schedule.TeacherID ||
+                       a.EndTime >= schedule.EndTime && a.EndTime <= schedule.EndTime && a.TeacherID == schedule.TeacherID);
+          
+            if (checkSchedTeacher != null)
+                return "time_discrepancy";
+
+
             var checkSched = scheduleRepo.
-                FindSchedule(a => a.StartTime >= schedule.StartTime && a.EndTime <= schedule.StartTime && a.TeacherID == schedule.TeacherID ||
-                             a.EndTime >= schedule.EndTime && a.EndTime <= schedule.EndTime && a.TeacherID == schedule.TeacherID);
+                FindSchedule(a => a.StartTime >= schedule.StartTime && a.EndTime <= schedule.StartTime && a.SectionNumber == getSection.SectionNumber  ||
+                             a.EndTime >= schedule.EndTime && a.EndTime <= schedule.EndTime && a.SectionNumber == getSection.SectionNumber );
             if (checkSched != null)
                 return "time_discrepancy";
-            
+
+          
+
 
             var checkSubject = scheduleRepo.FindSchedule(a => a.SubjectName == schedule.SubjectName &&  a.SectionNumber == getSection.SectionNumber && a.Grade == schedule.Grade);
 

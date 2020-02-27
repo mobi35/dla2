@@ -36,7 +36,7 @@
                
 
                     <label>Section</label>
-                    <div id="section_number" >
+                    <div id="sectiondiv" >
                    
 
                     </div>
@@ -265,29 +265,31 @@
 
 <script>
 
+    $(document).ready(function () {
         $("#grade").change(function () {
 
 
-        var selectSection = "";
-        $('#section_number').html("");
-        $.ajax({
+            var selectSection = "";
+            $('#sectiondiv').html("");
+            $.ajax({
 
-            url: '/User/GetSection',
-            type: 'get',
-            data: { grade: $(this).val() },
-            success: function (e) {
+                url: '/User/GetSection',
+                type: 'get',
+                data: { grade: $(this).val() },
+                success: function (e) {
 
-                selectSection += '<select id="section-list" class="form-control" >';
-                for (var key of Object.keys(e)) {
-                    selectSection += '<option value="' + e[key].sectionID + '">' + e[key].sectionNumber + ' - ' + e[key].sectionName + ' </option>';
+                    selectSection += '<select id="section-list" class="form-control" >';
+                    for (var key of Object.keys(e)) {
+                        selectSection += '<option value="' + e[key].sectionID + '">' + e[key].sectionNumber + ' - ' + e[key].sectionName + ' </option>';
+                    }
+
+                    selectSection += '</select>';
+
+                    $('#sectiondiv').append(selectSection);
 
                 }
 
-                selectSection += '</select>';
-
-                $('#section_number').append(selectSection);
-
-            }
+            });
 
         });
 
@@ -374,8 +376,9 @@
 
         var student = new FormData();
 
-    
+            
         var section_number = $('#section-list').val();
+       
         var adviser = $('#adviser_name').val();
         var grade = $('#grade').val();
 
