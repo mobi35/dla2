@@ -16,6 +16,8 @@ namespace DLA_Thesis.Data.Model
         public int Grade { get; set; }
         public float Payment { get; set; }
 
+        public int FeeID { get; set; }
+
         public string Status { get; set; }
 
         public DateTime BilledDate { get; set; }

@@ -2,10 +2,95 @@
 @using DLA_Thesis.Data.Model.Interface
 @inject ITeacherRepository TeacherRepository
 @inject ISectionRepository SectionRepository
+@inject IGradeRepository GradeRepo
+@inject IRoomRepository RoomRepository
 @{
     ViewData["Title"] = "Schedule List";
     Layout = "~/Views/Shared/adminLayout.cshtml";
 }
+
+<div class="modal fade" id="edit_schedule_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="update_time" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+                <div class="modal-body">
+
+
+
+                    <small>Edit Schedule</small>
+                    <br />
+                    <input type="hidden" id="edit_schedule_id" />
+                    <label>Starting-Time</label>
+                    <div class="form-group">
+                        <select id="e_start_time" class="form-control">
+                            <option value="7:45 AM">7:45 AM</option>
+                            <option value="8:30 AM">8:30 AM</option>
+                            <option value="9:15 AM">9:15 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="10:45 AM">10:45 AM</option>
+                            <option value="11:30 AM">11:30 AM</option>
+                            <option value="12:15 PM">12:15 PM</option>
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="1:45 PM">1:45 PM</option>
+                            <option value="2:30 PM">2:30 PM</option>
+                            <option value="3:15 PM">3:15 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="4:45 PM">4:45 PM</option>
+                            <option value="5:30 PM">5:30 PM</option>
+                        </select>
+                    </div>
+                    <label>Ending-Time</label>
+                    <div class="form-group">
+
+                        <select id="e_end_time" class="form-control">
+                            <option value="7:45 AM">7:45 AM</option>
+                            <option value="8:30 AM">8:30 AM</option>
+                            <option value="9:15 AM">9:15 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="10:45 AM">10:45 AM</option>
+                            <option value="11:30 AM">11:30 AM</option>
+                            <option value="12:15 PM">12:15 PM</option>
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="1:45 PM">1:45 PM</option>
+                            <option value="2:30 PM">2:30 PM</option>
+                            <option value="3:15 PM">3:15 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="4:45 PM">4:45 PM</option>
+                            <option value="5:30 PM">5:30 PM</option>
+                        </select>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input id="edit_register_student" type="submit" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -33,74 +118,73 @@
                         </select>
                     </div>
 
-               
-
                     <label>Section</label>
-                    <div id="sectiondiv" >
+                    <div id="sectiondiv">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teacher</label>
+                        <select class="form-control" id="adviser_name">
+                            @{
+
+                                foreach (var t in Model.Teacher)
+                                {
+                                    <option value="@t.TeacherID">@t.FirstName @t.MiddleName @t.LastName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
                    
 
-                    </div>
 
-
-                        <div class="form-group">
-                            <label>Teacher</label>
-                            <select class="form-control" id="adviser_name">
-                                @{
-
-                                    foreach (var t in Model.Teacher)
-                                    {
-                                        <option value="@t.TeacherID">@t.FirstName @t.MiddleName @t.LastName</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <label>Subjects</label>
-                        <div id="subject_list" class="form-group">
-
-
-                        </div>
-
-
-                        <label>Starting-Time</label>
-                        <div class="form-group">
-                            <select id="start_time" class="form-control">
-                                <option>8:00 AM</option>
-                                <option>9:00 AM</option>
-                                <option>10:00 AM</option>
-                                <option>11:00 AM</option>
-                                <option>12:00 AM</option>
-                                <option>1:00 PM</option>
-                                <option>2:00 PM</option>
-                                <option>3:00 PM</option>
-                                <option>4:00 PM</option>
-                                <option>5:00 PM</option>
-                                <option>6:00 PM</option>
-                            </select>
-
-                        </div>
-
-                        <label>Ending-Time</label>
-                        <div class="form-group">
-
-                            <select id="end_time" class="form-control">
-                                <option>8:00 AM</option>
-                                <option>9:00 AM</option>
-                                <option>10:00 AM</option>
-                                <option>11:00 AM</option>
-                                <option>12:00 AM</option>
-                                <option>1:00 PM</option>
-                                <option>2:00 PM</option>
-                                <option>3:00 PM</option>
-                                <option>4:00 PM</option>
-                                <option>5:00 PM</option>
-                                <option>6:00 PM</option>
-                            </select>
-
-                        </div>
-
-
+                    <label>Subjects</label>
+                    <div id="subject_list" class="form-group">
 
                     </div>
+                    <label>Starting-Time</label>
+                    <div class="form-group">
+                        <select id="start_time" class="form-control">
+                            <option value="7:45 AM">7:45 AM</option>
+                            <option value="8:30 AM">8:30 AM</option>
+                            <option value="9:15 AM">9:15 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="10:45 AM">10:45 AM</option>
+                            <option value="11:30 AM">11:30 AM</option>
+                            <option value="12:15 PM">12:15 PM</option>
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="1:45 PM">1:45 PM</option>
+                            <option value="2:30 PM">2:30 PM</option>
+                            <option value="3:15 PM">3:15 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="4:45 PM">4:45 PM</option>
+                            <option value="5:30 PM">5:30 PM</option>
+                        </select>
+                    </div>
+                    <label>Ending-Time</label>
+                    <div class="form-group">
+
+                        <select id="end_time" class="form-control">
+                            <option value="7:45 AM">7:45 AM</option>
+                            <option value="8:30 AM">8:30 AM</option>
+                            <option value="9:15 AM">9:15 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="10:45 AM">10:45 AM</option>
+                            <option value="11:30 AM">11:30 AM</option>
+                            <option value="12:15 PM">12:15 PM</option>
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="1:45 PM">1:45 PM</option>
+                            <option value="2:30 PM">2:30 PM</option>
+                            <option value="3:15 PM">3:15 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="4:45 PM">4:45 PM</option>
+                            <option value="5:30 PM">5:30 PM</option>
+                        </select>
+
+                    </div>
+
+                </div>
                 <div class="modal-footer">
                     <div class="left-side">
                         <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
@@ -116,6 +200,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 
 <button class="btn btn-neutral" data-toggle="modal" data-target="#myModal">
     Add Schedule
@@ -209,6 +297,23 @@
     <div class="row">
         <div class="col-md-12">
             <div style="padding:2%;" class="card">
+
+                <select id="gradeAndSec" class="form-control">
+                    <option>Choose grade and section</option>
+                    @{
+                        foreach (var m in GradeRepo.GetAll())
+                        {
+                            <option value="@SectionRepository.FindSection(a => a.SectionID == m.SectionID).SectionNumber - @SectionRepository.FindSection(a => a.SectionID == m.SectionID).SectionName">Grade @m.GradeLevel - @SectionRepository.FindSection(a => a.SectionID == m.SectionID).SectionNumber - @SectionRepository.FindSection(a => a.SectionID == m.SectionID).SectionName</option>
+                        }
+                    }
+
+                </select>
+
+
+
+
+
+
                 <table class="table table-striped table-bordered" style=" width:100%;" id="sectionList">
                     <thead>
                         <tr>
@@ -218,6 +323,7 @@
                             <th style="color:#51cbce;">Time</th>
                             <th style="color:#51cbce;">Teacher</th>
                             <th style="color:#51cbce;">Action</th>
+                            <th style="color:#51cbce;">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -238,17 +344,29 @@
                                             }
                                             else
                                             {
-                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).FirstName
-                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).MiddleName
+                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).FirstName @Html.Raw(" ")
+                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).MiddleName @Html.Raw(" ")
                                                 @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).LastName
                                             }
-
                                         }
 
 
                                     </td>
 
                                     <td>
+
+                                        <button onclick="GetSched(@m.ScheduleID, '@m.StartTime.ToShortTimeString()' , '@m.EndTime.ToShortTimeString()')" class="btn btn-neutral" data-toggle="modal" data-target="#edit_schedule_modal">
+                                            Edit Schedule
+                                        </button>
+
+                                    </td>
+
+                                    <td>
+
+                                        <a asp-controller="Schedule" asp-action="DeleteSchedule" asp-route-id="@m.ScheduleID" onclick="confirm('are you sure you want to remove this schedule ?');" class="btn btn-neutral">
+                                            Delete
+                                        </a>
+
                                     </td>
                                 </tr>
                             }
@@ -265,9 +383,16 @@
 
 <script>
 
+    function GetSched(id, startTime, endTime) {
+
+        $('#e_start_time').val(startTime);
+        $('#e_end_time').val(endTime);
+        $('#edit_schedule_id').val(id);
+
+    }
+
     $(document).ready(function () {
         $("#grade").change(function () {
-
 
             var selectSection = "";
             $('#sectiondiv').html("");
@@ -376,9 +501,9 @@
 
         var student = new FormData();
 
-            
+
         var section_number = $('#section-list').val();
-       
+
         var adviser = $('#adviser_name').val();
         var grade = $('#grade').val();
 
@@ -386,21 +511,23 @@
 
         var endTime = $('#end_time').val();
 
+         
+
         var subjectForTeacher = $('#subject-for-teacher').val();
 
         var slot = $('#slot').val();
 
-        if ( adviser == "" || grade == "") {
+        if (adviser == "" || grade == "") {
             alert("Please complete the fields");
             return false;
         }
 
-   
+
         student.append("SectionNumber", section_number);
         student.append("TeacherID", adviser);
         student.append("Grade", grade);
         student.append("Slot", slot);
-
+    
         student.append("StartTime", startTime);
         student.append("EndTime", endTime);
         student.append("SubjectName", subjectForTeacher);
@@ -418,12 +545,13 @@
                     return false;
                 }
 
+
                 if (xhr.responseText == "subject_exist") {
                     alert("This section has already this kind of subject.");
                     return false;
                 }
 
-                  if (xhr.responseText == "time_error") {
+                if (xhr.responseText == "time_error") {
                     alert("The ending date must be greater than the starting date");
                     return false;
                 }
@@ -440,6 +568,54 @@
     }
 
 
+    document.getElementById('update_time').onsubmit = function () {
+
+        var student = new FormData();
+
+
+
+        var start = $('#e_start_time').val();
+        var end = $('#e_end_time').val();
+        var id = $('#edit_schedule_id').val();
+
+        student.append("StartTime", start);
+        student.append("EndTime", end);
+        student.append("ScheduleID", id);
+
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Schedule/UpdateTeachingTime');
+        xhr.send(student);
+
+        xhr.onreadystatechange = function () {
+
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    if (xhr.responseText == "time_discrepancy") {
+                        alert("There's already schedule at this time.");
+                        return false;
+                    }
+
+                    if (xhr.responseText == "subject_exist") {
+                        alert("This section has already this kind of subject.");
+                        return false;
+                    }
+
+                    if (xhr.responseText == "time_error") {
+                        alert("The ending date must be greater than the starting date");
+                        return false;
+                    }
+                    if (xhr.responseText == "") {
+                        alert("schedule updated");
+                        window.open("../../Schedule/Index", "_self");
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
 
     document.getElementById('edit-section-form').onsubmit = function () {
@@ -471,7 +647,6 @@
                 }
             }
         }
-
         return false;
 
     }
@@ -487,7 +662,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#sectionList').DataTable({
+        var table = $('#sectionList').DataTable({
 
             responsive: true,
 
@@ -518,6 +693,16 @@
             ]
 
         });
+
+        $('#gradeAndSec').change(function () {
+
+            table
+                .columns(1)
+                .search(this.value)
+                .draw();
+
+        });
+
     });
 
 
@@ -528,7 +713,7 @@
     }
 
 
-  $('#schedulenav').addClass('active');
+    $('#schedulenav').addClass('active');
 
 </script>
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using DLA_Thesis.Data.Model;
 using DLA_Thesis.Data.Model.Interface;
@@ -84,12 +85,15 @@ namespace DLA_Thesis.Controllers
             if (teacherRepo.FindTeacher(a => a.Email == teacher.Email) != null)
                 return "email_exist";
 
+            if(teacher.UserLevel == "Teacher") { 
             foreach (var n in teacher.Skills.Split(",")) { 
             if(!subjectRepo.GetAll().Select(a => a.SubjectName).Contains(n))
                 {
                     return "no_subject";
                 }
              }
+            }
+
             teacherRepo.Create(teacher);
             return "";
         }
@@ -255,17 +259,7 @@ namespace DLA_Thesis.Controllers
                 return validationList;
             }
 
-            Billing billing = new Billing();
-
-
-            billing.BilledDate = DateTime.Now;
-            billing.Grade = student.CurrentGrade;
-            billing.LRN = student.LRN;
-            billing.Status = "Pending";
-
-
-            billingRepo.Create(billing);
-
+         
             try
             {
 
@@ -290,7 +284,89 @@ namespace DLA_Thesis.Controllers
             }
 
             studentRepo.Create(student);
+
+
+            if(student.ModeOfPayment == "cash")
+            {
+               var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == student.CurrentGrade);
+
+                Billing billing = new Billing();
+                billing.Payment = fee.PaymentPrice;
+                billing.BilledDate = DateTime.Now;
+                billing.Grade = student.CurrentGrade;
+                billing.FeeID = fee.FeeID;
+                billing.LRN = student.LRN;
+                billing.Status = "Pending";
+                billingRepo.Create(billing);
+            }
+            else if (student.ModeOfPayment == "two_payment")
+            {
+                var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == student.CurrentGrade);
+                
+                var splitFee = (fee.PaymentPrice + (fee.PaymentPrice * 0.02f))/ 2;
+                for(int i = 1; i <= 2; i++)
+                {
+                    Billing billing = new Billing();
+                    billing.Payment = splitFee;
+                    billing.BilledDate = DateTime.Now.AddMonths(i);
+                    billing.Grade = student.CurrentGrade;
+                    billing.LRN = student.LRN;
+                    billing.FeeID = fee.FeeID;
+                    billing.Status = "Pending";
+                    billingRepo.Create(billing);
+                }
+               
+            }
+            else if (student.ModeOfPayment == "monthly")
+            {
+                var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == student.CurrentGrade);
+                var splitFee = (fee.PaymentPrice + (fee.PaymentPrice * 0.12f)) / 12;
+                for (int i = 1; i <= 12; i++)
+                {
+                    Billing billing = new Billing();
+                    billing.Payment = splitFee;
+                    billing.BilledDate = DateTime.Now.AddMonths(i);
+                    billing.Grade = student.CurrentGrade;
+                    billing.LRN = student.LRN;
+                    billing.FeeID = fee.FeeID;
+                    billing.Status = "Pending";
+                    billingRepo.Create(billing);
+                }
+
+            }
+            else if (student.ModeOfPayment == "quarterly")
+            {
+                var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == student.CurrentGrade);
+                var splitFee = (fee.PaymentPrice + (fee.PaymentPrice * 0.12f)) / 12;
+                for (int i = 1; i <= 4; i++)
+                {
+                    Billing billing = new Billing();
+                    billing.Payment = splitFee;
+                    billing.BilledDate = DateTime.Now.AddMonths(3*i); ;
+                    billing.Grade = student.CurrentGrade;
+                    billing.LRN = student.LRN;
+                    billing.FeeID = fee.FeeID;
+                    billing.Status = "Pending";
+                    billingRepo.Create(billing);
+                }
+
+            }
+
+
+
+
+
+
+
             return "success";
+        }
+
+        public IActionResult DropOut(int id)
+        {
+            var student = studentRepo.FindStudent(a => a.StudentID == id);
+            student.Status = "Dropped";
+            studentRepo.Update(student);
+            return View("Index");
         }
 
         public string AddSection(Student student)
@@ -301,6 +377,21 @@ namespace DLA_Thesis.Controllers
             studentRepo.Update(s);
 
             return "";
+        }
+
+        public IActionResult Levelup(int id)
+        {
+            var stud = studentRepo.FindStudent(a => a.StudentID == id);
+            stud.CurrentGrade++;
+            studentRepo.Update(stud);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<script>alert('Successfully Levelup'); window.open('.. /User/Index','_self')</script>"
+            };
+       
         }
 
         [HttpGet]
@@ -333,6 +424,21 @@ namespace DLA_Thesis.Controllers
         public JsonResult GetSubject()
         {
             return Json(subjectRepo.GetAll().Select(a => a.SubjectName).ToList() );
+        }
+
+        public string GetEmployee(int id)
+        {
+            var employee = teacherRepo.FindTeacher(a => a.TeacherID == id);
+
+            return ""+ employee.Skills;
+        }
+
+        public string UpdateTeacher(Teacher teacher)
+        {
+            var findTeacher = teacherRepo.FindTeacher(a => a.TeacherID == teacher.TeacherID);
+            findTeacher.Skills = teacher.Skills;
+            teacherRepo.Update(findTeacher);
+            return "";
         }
 
         bool IsValidEmail(string email)

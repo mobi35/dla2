@@ -17,9 +17,9 @@ namespace DLA_Thesis.Data.Model
         public DateTime EndTime { get; set; }
         public int TeacherID { get; set; }
         public int Slot { get; set; }
-
         public string SubjectName { get; set; }
 
+        public string Areas { get; set; }
 
     }
 }

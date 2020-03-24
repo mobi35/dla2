@@ -11,11 +11,13 @@ namespace DLA_Thesis.Controllers
 {
     public class SectionController : Controller
     {
+        private readonly IRoomRepository roomRepo;
         private readonly ISectionRepository sectionRepo;
         private readonly ITeacherRepository teacherRepo;
 
-        public SectionController(ISectionRepository sectionRepo, ITeacherRepository teacherRepo)
+        public SectionController(IRoomRepository roomRepo,  ISectionRepository sectionRepo, ITeacherRepository teacherRepo)
         {
+            this.roomRepo = roomRepo;
             this.sectionRepo = sectionRepo;
             this.teacherRepo = teacherRepo;
         }
@@ -39,6 +41,7 @@ namespace DLA_Thesis.Controllers
             return teacherSectionVM;
         }
 
+
         public IActionResult Index()
         {
 
@@ -56,6 +59,10 @@ namespace DLA_Thesis.Controllers
                 return "existingteacher";
 
             sectionRepo.Create(section);
+
+            var roomRep = roomRepo.FindRoom(a => a.RoomNumber == section.RoomNumber);
+            roomRep.SectionID = sectionRepo.GetAll().LastOrDefault().SectionID;
+            roomRepo.Update(roomRep);
 
             return "";
         }

@@ -6,63 +6,129 @@
 
 
 
-    <style>
-       
+<style>
 
-        /*the container must be positioned relative:*/
-        .autocomplete {
-            position: relative;
-            display: inline-block;
-        }
 
-        input {
-            border: 1px solid transparent;
+    /*the container must be positioned relative:*/
+    .autocomplete {
+        position: relative;
+        display: inline-block;
+    }
+
+    input {
+        border: 1px solid transparent;
+        background-color: #f1f1f1;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+        input[type=text] {
             background-color: #f1f1f1;
+            width: 100%;
+        }
+
+        input[type=submit] {
+            background-color: DodgerBlue;
+            color: #fff;
+            cursor: pointer;
+        }
+
+    .autocomplete-items {
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        /*position the autocomplete items to be the same width as the container:*/
+        top: 100%;
+        left: 0;
+        right: 0;
+    }
+
+        .autocomplete-items div {
             padding: 10px;
-            font-size: 16px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
         }
 
-            input[type=text] {
-                background-color: #f1f1f1;
-                width: 100%;
+            /*when hovering an item:*/
+            .autocomplete-items div:hover {
+                background-color: #e9e9e9;
             }
 
-            input[type=submit] {
-                background-color: DodgerBlue;
-                color: #fff;
-                cursor: pointer;
-            }
+    /*when navigating through the items using the arrow keys:*/
+    .autocomplete-active {
+        background-color: DodgerBlue !important;
+        color: #ffffff;
+    }
+</style>
 
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            border-bottom: none;
-            border-top: none;
-            z-index: 99;
-            /*position the autocomplete items to be the same width as the container:*/
-            top: 100%;
-            left: 0;
-            right: 0;
-        }
 
-            .autocomplete-items div {
-                padding: 10px;
-                cursor: pointer;
-                background-color: #fff;
-                border-bottom: 1px solid #d4d4d4;
-            }
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="teacherUpdate" enctype="multipart/form-data">
+                <div class="modal-header">
 
-                /*when hovering an item:*/
-                .autocomplete-items div:hover {
-                    background-color: #e9e9e9;
-                }
+                    <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+                <div class="modal-body">
+                    
+                    <small style="color:red">Choose the autocomplete</small><br />
+                    <input type="hidden" id="edit_skill_id" />
+                    <div class="autocomplete form-group">
+                        <label>Subject 1</label>
+                        <input autocomplete="off" id="e_skill1" type="text" name="myCountry" class="form-control" placeholder="">
+                        <small id="e_skill1_v" style="color:red;"></small>
+                    </div>
 
-        /*when navigating through the items using the arrow keys:*/
-        .autocomplete-active {
-            background-color: DodgerBlue !important;
-            color: #ffffff;
-        }
-    </style>
+                    <div class="autocomplete form-group">
+                        <label>Subject 2</label>
+                        <input autocomplete="off" id="e_skill2" type="text" name="myCountry" class="form-control" placeholder="">
+                        <small id="e_skill1_v" style="color:red;"></small>
+                    </div>
+
+                    <div class="autocomplete form-group">
+                        <label>Subject 3</label>
+                        <input autocomplete="off" id="e_skill3" type="text" name="myCountry" class="form-control" placeholder="">
+                        <small id="e_skill1_v" style="color:red;"></small>
+                    </div>
+
+                    <div class="autocomplete form-group">
+                        <label>Subject 4</label>
+                        <input autocomplete="off" id="e_skill4" type="text" name="myCountry" class="form-control" placeholder="">
+                        <small id="e_skill1_v" style="color:red;"></small>
+                    </div>
+
+
+
+
+                  
+
+                </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 
 
 
@@ -130,14 +196,16 @@
                     <div class="form-group">
                         <label>Level</label>
                         <select class="form-control" id="level">
-                            <option>Principal</option>
                             <option>Teacher</option>
+                            <option>Registrar</option>
+                            <option>Admin</option>
+
                         </select>
                     </div>
                     <small style="color:red">Choose the autocomplete</small><br />
                     <div class="autocomplete form-group">
                         <label>Subject 1</label>
-                        <input autocomplete="off"   id="skill1" type="text" name="myCountry" class="form-control" placeholder="">
+                        <input autocomplete="off" id="skill1" type="text" name="myCountry" class="form-control" placeholder="">
                         <small id="skill1_v" style="color:red;"></small>
                     </div>
 
@@ -234,18 +302,33 @@
                             <th style="color:#51cbce;">Full Name</th>
                             <th style="color:#51cbce;">Skills</th>
                             <th style="color:#51cbce;">User Level</th>
+                            <th style="color:#51cbce;">Action </th>
                         </tr>
                     </thead>
                     <tbody>
                         @{
                             foreach (var m in Model)
                             {
-                            <tr>
+                                <tr>
 
-                                <td>@m.FirstName @m.MiddleName @m.LastName</td>
-                                <td>@m.Skills</td>
-                                <td>@m.UserLevel</td>
-                            </tr>
+                                    <td>@m.FirstName @m.MiddleName @m.LastName</td>
+                                    <td>@m.Skills</td>
+                                    <td>@m.UserLevel</td>
+                                    <td>
+                                        @{
+                                            if (m.UserLevel == "Teacher")
+                                            {
+                                                <button onclick="GetUpdate('@m.TeacherID')" class="btn btn-neutral" data-toggle="modal" data-target="#editModal">
+                                                    Edit
+                                                </button>
+                                            }
+
+                                        }
+
+
+                                    </td>
+
+                                </tr>
                             }
 
                         }
@@ -257,6 +340,50 @@
 </div>
 
 <script>
+
+    function GetUpdate(id) {
+
+        $('#e_skill1').val('');
+        $('#e_skill2').val('');
+        $('#e_skill3').val('');
+        $('#e_skill4' ).val('');
+        $('#edit_skill_id').val(id);
+        $.ajax({
+
+            url: '/User/GetEmployee',
+            type: 'GET',
+            data: { id: id },
+            success: function (e) {
+
+                var arr = e.split(',');
+
+                   $('#e_skill1').val(arr[0]);
+                   $('#e_skill2').val(arr[1]);
+                   $('#e_skill3').val(arr[2]);
+                   $('#e_skill4').val(arr[3]);
+
+            
+            }
+
+        });
+    }
+
+    $('#level').change(function () {
+
+        if ($(this).val() != "Teacher") {
+            $('#skill1').attr("readonly", true);
+            $('#skill2').attr("readonly", true);
+            $('#skill3').attr("readonly", true);
+            $('#skill4').attr("readonly", true);
+        } else {
+            $('#skill1').attr("readonly", false);
+            $('#skill2').attr("readonly", false);
+            $('#skill3').attr("readonly", false);
+            $('#skill4').attr("readonly", false);
+        }
+
+    });
+
 
     document.getElementById('teacherRegistration').onsubmit = function () {
 
@@ -273,8 +400,6 @@
         for (i = 0; i < fileInput.files.length; i++) {
             student.append("Image", fileInput.files[i]);
         }
-
-
         var email = $('#email').val();
         var fname = $('#fname').val();
         var mname = $('#mname').val();
@@ -289,7 +414,7 @@
         var skill3 = $('#skill3').val();
         var skill4 = $('#skill4').val();
 
-             var skill = skill1;
+        var skill = skill1;
         if (skill2 != "") {
             skill += "," + skill2;
         }
@@ -297,27 +422,31 @@
             skill += "," + skill3;
         }
 
-          if (skill4 != "") {
+        if (skill4 != "") {
             skill += "," + skill4;
         }
 
         var skillList = skill.split(",").sort();
-      
+
         for (var i = 0; i < skillList.length - 1; i++) {
             if (skillList[i + 1] == skillList[i]) {
                 alert("there is a duplicate skill");
                 return false;
             }
         }
-      
-        
-    
 
-        if (skill1 == "" || fname == "" || mname == "" || lname == "" || address == "" || bdate == "" || password == "" || rpassword == "" ) {
+
+
+        if (level == "Teacher" && skill1 == "") {
             alert("Please complete the fields");
             return false;
         }
-   
+
+        if (fname == "" || mname == "" || lname == "" || address == "" || bdate == "" || password == "" || rpassword == "") {
+            alert("Please complete the fields");
+            return false;
+        }
+
         student.append("FirstName", fname);
         student.append("MiddleName", mname);
         student.append("LastName", lname);
@@ -339,16 +468,86 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
 
                 if (xhr.responseText == "email_exist") {
-                      alert("This email is already existed");
+                    alert("This email is already existed");
                     return false;
                 }
-               else if (xhr.responseText == "no_subject") {
-                      alert("Subject Error. Please choose the subject in auto complete form");
+                else if (xhr.responseText == "no_subject") {
+                    alert("Subject Error. Please choose the subject in auto complete form");
                     return false;
                 }
 
                 if (xhr.responseText == "") {
-                    alert("teacher added");
+                    alert("employee added");
+                    window.open("../../User/Teacher", "_self");
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+
+
+
+
+
+     document.getElementById('teacherUpdate').onsubmit = function () {
+
+        var student = new FormData();
+
+      
+
+        var userid = $('#edit_skill_id').val();
+        var skill1 = $('#e_skill1').val();
+        var skill2 = $('#e_skill2').val();
+        var skill3 = $('#e_skill3').val();
+        var skill4 = $('#e_skill4').val();
+
+        var skill = skill1;
+        if (skill2 != "") {
+            skill += "," + skill2;
+        }
+        if (skill3 != "") {
+            skill += "," + skill3;
+        }
+
+        if (skill4 != "") {
+            skill += "," + skill4;
+        }
+
+
+        var skillList = skill.split(",").sort();
+
+        for (var i = 0; i < skillList.length - 1; i++) {
+            if (skillList[i + 1] == skillList[i]) {
+                alert("there is a duplicate skill");
+                return false;
+            }
+        }
+
+
+
+        if (skill1 == "") {
+            alert("Please complete the fields");
+            return false;
+        }
+
+        student.append("Skills", skill);
+         student.append("TeacherID", userid);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/User/UpdateTeacher');
+        xhr.send(student);
+
+        xhr.onreadystatechange = function () {
+
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+
+
+                if (xhr.responseText == "") {
+                    alert("employee updated");
                     window.open("../../User/Teacher", "_self");
                 }
             }
@@ -422,7 +621,7 @@
 
 <script>
 
-        var subjects = [];
+    var subjects = [];
 
     function autocomplete(inp, arr) {
         /*the autocomplete function takes two arguments,
@@ -522,35 +721,41 @@
     }
 
 
-   
+
     /*An array containing all the country names in the world:*/
- 
-   
-  
 
 
-        
-        var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+
+
+
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
 
             subjects = JSON.parse(xhttp.responseText);
-            autocomplete(document.getElementById("skill1"),  subjects);
-                autocomplete(document.getElementById("skill2"),  subjects);
-                autocomplete(document.getElementById("skill3"),  subjects);
-              autocomplete(document.getElementById("skill4"),  subjects);
+            autocomplete(document.getElementById("skill1"), subjects);
+            autocomplete(document.getElementById("skill2"), subjects);
+            autocomplete(document.getElementById("skill3"), subjects);
+            autocomplete(document.getElementById("skill4"), subjects);
+
+
+               autocomplete(document.getElementById("e_skill1"), subjects);
+            autocomplete(document.getElementById("e_skill2"), subjects);
+            autocomplete(document.getElementById("e_skill3"), subjects);
+            autocomplete(document.getElementById("e_skill4"), subjects);
 
         }
 
-        
+
 
     };
 
     xhttp.open("GET", "../User/GetSubject", true);
     xhttp.send();
-     
 
-          
+
+
 
 
 
@@ -561,6 +766,6 @@
 
     });
 
- 
- 
+
+
 </script>

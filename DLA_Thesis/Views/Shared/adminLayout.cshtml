@@ -54,6 +54,23 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul style="display:none;" id="teacher-panel" class="nav">
+                
+
+                    <li id="assignedsubject">
+
+                    </li>
+
+                
+                
+
+
+                
+
+                </ul>
+
+
+                <ul style="display:none;" id="registrar-panel" class="nav">
+
                     <li id="studentnav">
                         <a asp-action="Index" asp-controller="User">
                             <i class="nc-icon nc-single-02"></i>
@@ -61,23 +78,11 @@
                         </a>
                     </li>
 
-                    <li id="assignedsubject">
-
-                    </li>
-
-
 
                     <li id="teachernav">
                         <a asp-action="Teacher" asp-controller="User">
                             <i class="nc-icon nc-single-02"></i>
                             <p>Employee</p>
-                        </a>
-                    </li>
-
-                    <li id="subjectnav">
-                        <a asp-action="Index" asp-controller="Subject">
-                            <i class="nc-icon nc-single-02"></i>
-                            <p>Subject</p>
                         </a>
                     </li>
 
@@ -88,10 +93,33 @@
                         </a>
                     </li>
 
-                    <li id="sectionnav">
-                        <a asp-action="Index" asp-controller="Section">
+                    <li id="schedulenav">
+                        <a asp-action="Index" asp-controller="Billing">
                             <i class="nc-icon nc-single-02"></i>
-                            <p>Section</p>
+                            <p>Billing</p>
+                        </a>
+                    </li>
+
+
+                    <li id="schedulenav">
+                        <a asp-action="Index" asp-controller="Report">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Reports</p>
+                        </a>
+                    </li>
+
+
+
+                </ul>
+
+
+                <ul style="display:none;" id="admin-panel" class="nav">
+
+
+                    <li id="subjectnav">
+                        <a asp-action="Index" asp-controller="Subject">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Subject</p>
                         </a>
                     </li>
 
@@ -108,6 +136,15 @@
                             <p>Fees</p>
                         </a>
                     </li>
+
+
+                    <li id="sectionnav">
+                        <a asp-action="Index" asp-controller="Section">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Section</p>
+                        </a>
+                    </li>
+
 
                 </ul>
 
@@ -290,11 +327,31 @@
         $('#teacher-panel').css("display", "none");
         $('#student-panel').css("display", "block");
 
+        $('#registrar-panel').css("display", "none");
+        $('#admin-panel').css("display", "none");
 
-    } else if (sessionStorage.getItem("role") == "teacher") {
+    } else if (sessionStorage.getItem("role") == "Teacher") {
         $('#teacher-panel').css("display", "block");
         $('#student-panel').css("display", "none");
 
+             $('#registrar-panel').css("display", "none");
+        $('#admin-panel').css("display", "none");
+
+    }
+
+    else if (sessionStorage.getItem("role") == "Admin") {
+        $('#teacher-panel').css("display", "none");
+        $('#student-panel').css("display", "none");
+              $('#registrar-panel').css("display", "none");
+        $('#admin-panel').css("display", "block");
+
+    }
+
+    else if (sessionStorage.getItem("role") == "Registrar") {
+        $('#teacher-panel').css("display", "none");
+        $('#student-panel').css("display", "none");
+            $('#registrar-panel').css("display", "block");
+        $('#admin-panel').css("display", "none");
 
     }
 

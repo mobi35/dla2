@@ -4,38 +4,49 @@
     Layout = "~/Views/Shared/adminLayout.cshtml";
 }
 
-<script>
-    var username = sessionStorage.getItem("username");
-
-    var t = "";
-     $('#tbody').html('');
-    $.ajax({
-        url: '/Schedule/GetSchedule',
-        type: 'GET',
-        data:{ username: username },
-        success: function (e) {
-
-         
-            for (var key in Object.keys(e)) {
-                t += '<tr>';
-                t += '<td>'+e[key].schedule.subjectName+'</td>';
-                t += '<td>'+e[key].schedule.startTime.toString().substring(11,16)+' - '+e[key].schedule.endTime.toString().substring(11,16)+'</td>';
-                t += '<td>'+e[key].schedule.grade+' -'+e[key].schedule.sectionName+'   </td>';
-                t += '<td>'+e[key].teacher.firstName+' '+e[key].teacher.middleName+' '+e[key].teacher.lastName+'</td>';
-                t += '</tr>';
-            }
-            $('#tbody').append(t);
 
 
 
-        }
 
 
-    });
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="teacherRegistration" enctype="multipart/form-data">
+                <div class="modal-header">
+
+                    <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input id="email" type="text" class="form-control" />
+                        <small id="email_v" style="color:red;"></small>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
 
 
 
-</script>
+
+
 
 
 
@@ -43,22 +54,33 @@
     <div class="row">
         <div class="col-md-12">
 
+
+
+
             <br />
 
             <div style="padding:2%;" class="card">
-             
-                <table class="table table-striped table-bordered" style=" width:100%;" id="schedList">
-                    <thead>
-                        <tr>
-                            <th style="color:#51cbce;">Subject</th>
-                            <th style="color:#51cbce;">Schedule</th>
-                            <th style="color:#51cbce;">Grade / Section</th>
-                            <th style="color:#51cbce;">Adviser</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-                    </tbody>
-                </table>
+
+
+
+                <select id="grade" class="form-control">
+                    <option>Select Grade</option>
+                    <option value="7">Grade 7</option>
+                    <option value="8">Grade 8</option>
+                    <option value="9">Grade 9</option>
+                    <option value="10">Grade 10</option>
+                    <option value="11">Grade 11</option>
+                    <option value="12">Grade 12</option>
+                </select>
+
+                <button class="btn btn-neutral" id="viewSched">
+                    View My Sched
+                </button>
+                <br />
+                <div class="table_show">
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -67,14 +89,71 @@
 
 
 
+
 <script>
+    $('#viewSched').click(function () {
+        $('.table_show').html('');
+     
 
-   
-    $(document).ready(function () {
+        var username = sessionStorage.getItem("username");
+
+        var t = "";
+        $('#tbody').html('');
+        var grade = $('#grade').val();
+        $.ajax({
+            url: '/Schedule/GetSchedule',
+            type: 'GET',
+            data: { username: username, grade: grade },
+            success: function (e) {
+             
+             
+
+                t += ' <table class="table table-striped table-bordered" style=" width:100%;" id="schedList">';
+              
+                t += '  <thead>';
+
+
+                for (var key in Object.keys(e)) {
+                    t += '<tr>';
+                        t += '<th>LRN : ' + e[key].student.lrn + '</th>';
+                      t += '<th>Name : ' + e[key].student.firstName + ' ' + e[key].student.lastName + '</th>';
+                    t += '<th>Grade : ' + e[key].schedule.grade + ' / Section : ' + e[key].schedule.sectionNumber + ' Room : '+e[key].section.roomNumber+'</th>';
+                    
+                    t += '</tr>';
+
+
+                    break;
+                }
+
+                t+= ' <tr><th style="color:#51cbce;">Subject</th> <th style="color:#51cbce;">Schedule</th> <th style="color:#51cbce;">Teacher</th></tr></thead > ';
+                t += '<tbo  dy>';
+
+                for (var key in Object.keys(e)) {
+                    t += '<tr>';
+                    t += '<td>' + e[key].schedule.subjectName + '</td>';
+                    t += '<td>' + e[key].schedule.startTime.toString().substring(11, 16) + ' - ' + e[key].schedule.endTime.toString().substring(11, 16) + ' / Mon - Fri</td>';
+                    var salutation = "";
+                    if (e[key].teacher.gender == "male") {
+                        salutation = "Mr. ";
+                    } else {
+                        salutation = "Ms. ";
+                    }
+
+
+                    t += '<td>' + salutation + ' ' + e[key].teacher.lastName + '</td>';
+                    t += '</tr>';
+                }
+                t += '</tbody>';
+                t += '</table>';
+
+                $('.table_show').append(t);
+
+
+                    $(document).ready(function () {
 
 
 
-       var table = $('#schedList').DataTable({
+        var table = $('#schedList').DataTable({
 
             responsive: true,
 
@@ -104,7 +183,7 @@
                 }
             ]
 
-       });
+        });
 
 
 
@@ -115,9 +194,74 @@
 
 
 
-        $('#mysched').addClass('active');
+            }
+
+
+        });
+
+        return false;
+    });
+
 
 </script>
+
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+
+
+        var table = $('#schedList').DataTable({
+
+            responsive: true,
+
+            "lengthMenu": [50, 100, 500, 1000, 2000, 5000, 10000, 50000, 100000],
+            "order": [],
+            "sScrollX": "100%",
+            "scrollCollapse": true,
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend(
+                                '<img style= src="~/Images/activefinancelogo.png"  style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }, 'excelHtml5', {
+                    extend: 'pdf',
+                    download: 'open',
+                }
+            ]
+
+        });
+
+
+
+    });
+
+
+
+
+
+
+    $('#mysched').addClass('active');
+
+</script>
+
+
+
 
 <script src="~/DataTables-1.10.18/js/jquery.dataTables.js"></script>
 <script src="~/DataTables-1.10.18/js/dataTables.buttons.min.js"></script>

@@ -11,6 +11,9 @@ namespace DLA_Thesis.Data.Model
         [Key]
         public int SubjectID { get; set; }
 
+
+        public string Areas { get; set; }
+
         public string SubjectCode { get; set; }
         public string SubjectName { get; set; }
         public int Grade { get; set; }

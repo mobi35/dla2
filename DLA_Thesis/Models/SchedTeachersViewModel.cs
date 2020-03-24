@@ -10,5 +10,7 @@ namespace DLA_Thesis.Models
     {
         public Schedule Schedule { get; set; }
         public Teacher Teacher { get; set; }
+        public Section Section { get; set; }
+        public Student Student { get; set; }
     }
 }

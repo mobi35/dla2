@@ -4,8 +4,101 @@
     Layout = "~/Views/Shared/adminLayout.cshtml";
 }
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="studentRegistration" enctype="multipart/form-data">
+                <div class="modal-header">
+
+                    <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+                <div id="invoice_form" class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-6"><img style="margin:5%;" src="~/logo.jpg" /></div>
+                        <div class="pull-right text-right col-md-6">
+                            <h4 style="padding:3px; border-radius:10px; background-color:rgb(81, 203, 206); color:white; ">INVOICE NUMBER : <span id="invoice_number"></span></h4>
+                            <p>09992009 Adress St.</p>
+                            <p>Glory!!</p>
+                        </div>
+
+                        <div class="col-md-12">    <h3>Divine Light Academy </h3> </div>
+                        <div class="col-md-6"></div>
+
+
+                    </div>
+
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">        <hr />    <span>Full Name</span> : <b id="student_name"> </b> </div>
+                        <div class="col-md-12">       <span>Grade </span> : <b id="gradesec"></b></div>
+                        <div class="col-md-12">       <span>Address</span> : <b id="address"></b> </div>
+                        <div class="col-md-12">       <span>Invoice Date</span> : <b id="invoiceDate"></b> </div>
+                        <div class="col-md-12">       <span>Payment Plan</span> : <b id="mode">Cash</b> </div>
+                        <br />
+
+                    </div>
+                    <hr />
+
+                    <div class="row">
+                        <div class="container">
+                            <table class="table">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Price</th>
+                                </tr>
+
+                                <tr>
+                                    <td id="payname">Tuition Fee</td>
+                                    <td></td>
+                                    <td id="price">200.00 PHP</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-right" colspan="2">Total</td>
+                                    <td id="total" style=" background-color:rgb(81, 203, 206);">2000</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <button class="btn btn-primary" onclick="return Print();">Print</button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/printThis.js"></script>
 
 <script>
+    function Print() {
+
+        $('#invoice_form').printThis();
+        return false;
+    }
+
+
+</script>
+
+
+<script>
+    Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+    var date = new Date();
+
     var username = sessionStorage.getItem("username");
     var t = "";
     $('#tbody').html('');
@@ -15,11 +108,19 @@
         data: { username: username },
         success: function (e) {
             for (var key in Object.keys(e)) {
+                var newDate = new Date(e[key].billedDate);
+                if (date.addDays(15) >= newDate ) {
+
+            
                 t += '<tr>';
-                t += '<td>' + e[key].paymentName + '</td>';
-                t += '<td>P' + e[key].paymentPrice.toFixed(2) + '</td>';
-                t += '<td>' + e[key].gradeLevel + '</td>';
-                t += '</tr>';
+                t += '<td>' + e[key].billingID + '</td>';
+                    t += '<td>P' + e[key].payment.toFixed(2) + '</td>';
+                    t += '<td>' + e[key].billedDate.substr(0,10)+ '</td>';
+                t += '<td>' + e[key].grade + '</td>';
+                t += '<td>  <button onclick="GetInvoiceDetails(' + e[key].billingID + ')" class="btn btn-neutral" data-toggle="modal" data-target="#myModal">Show Invoice </button></td>';
+                    t += '</tr>';
+
+                }
             }
 
             $('#tbody').append(t);
@@ -49,14 +150,16 @@
             <br />
 
             <div style="padding:2%;" class="card">
-              
+
                 <br />
                 <table class="table table-striped table-bordered" style=" width:100%;" id="feeList">
                     <thead>
                         <tr>
-                            <th style="color:#51cbce;">Payment Name</th>
+                            <th style="color:#51cbce;">Billing ID</th>
                             <th style="color:#51cbce;">Payment Price</th>
+                            <th style="color:#51cbce;">Pay On</th>
                             <th style="color:#51cbce;">Grade Level</th>
+                            <th style="color:#51cbce;">Action</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -68,11 +171,38 @@
 </div>
 
 
+<script>
+    function GetInvoiceDetails(id) {
+        $.ajax({
+
+            url: '/Billing/GetInvoice',
+            type: 'GET',
+            data: { id: id },
+            success: function (e) {
+
+                $('#student_name').text(e.student.firstName + " " + e.student.middleName + " " + e.student.lastName);
+                $('#gradesec').text(e.student.currentGrade);
+                 $('#invoice_number').text(e.billing.billingID);
+                $('#address').text(e.student.address);
+                $('#invoiceDate').text(e.billing.billedDate.substr(0, 10));
+                $('#mode').text(e.student.modeOfPayment);
+
+                $('#payname').text(e.fee.paymentName);
+                $('#price').text(e.fee.paymentPrice);
+                $('#total').text(e.fee.paymentPrice);
+
+            }
+
+        });
+
+    }
+</script>
+
 
 
 <script>
 
- 
+
 
     $(document).ready(function () {
 

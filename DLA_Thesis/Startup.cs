@@ -40,6 +40,7 @@ namespace DLA_Thesis
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<IBillingRepository, BillingRepository>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IFeeRepository, FeeRepository>();
             services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

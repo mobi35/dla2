@@ -20,6 +20,7 @@ namespace DLA_Thesis.Data
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Fee> Fees { get; set; }
+        public DbSet<Room> Rooms { get; set; }
         public DbSet<Billing> Bilings { get; set; }
     }
 }

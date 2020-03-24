@@ -131,3 +131,5 @@ C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_T
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.dll
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.pdb
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.csproj.CopyComplete
+C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Room\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Report\Index.cshtml.g.cs

@@ -27,6 +27,8 @@ namespace DLA_Thesis.Migrations
 
                     b.Property<DateTime>("BilledDate");
 
+                    b.Property<int>("FeeID");
+
                     b.Property<int>("Grade");
 
                     b.Property<string>("LRN");
@@ -86,11 +88,30 @@ namespace DLA_Thesis.Migrations
                     b.ToTable("Grades");
                 });
 
+            modelBuilder.Entity("DLA_Thesis.Data.Model.Room", b =>
+                {
+                    b.Property<int>("RoomID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Capacity");
+
+                    b.Property<string>("RoomNumber");
+
+                    b.Property<int>("SectionID");
+
+                    b.HasKey("RoomID");
+
+                    b.ToTable("Rooms");
+                });
+
             modelBuilder.Entity("DLA_Thesis.Data.Model.Schedule", b =>
                 {
                     b.Property<int>("ScheduleID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Areas");
 
                     b.Property<DateTime>("EndTime");
 
@@ -120,6 +141,8 @@ namespace DLA_Thesis.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Grade");
+
+                    b.Property<string>("RoomNumber");
 
                     b.Property<string>("SectionName");
 
@@ -188,6 +211,8 @@ namespace DLA_Thesis.Migrations
 
                     b.Property<string>("MiddleName");
 
+                    b.Property<string>("ModeOfPayment");
+
                     b.Property<string>("MotherFirstName");
 
                     b.Property<string>("MotherLastName");
@@ -220,6 +245,8 @@ namespace DLA_Thesis.Migrations
                     b.Property<int>("SubjectID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Areas");
 
                     b.Property<int>("Grade");
 

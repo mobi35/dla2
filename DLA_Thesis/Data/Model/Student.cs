@@ -62,7 +62,7 @@ namespace DLA_Thesis.Data.Model
         public string GuardianOccupation { get; set; }
 
 
-
+        public string ModeOfPayment { get; set; }
 
         [NotMapped]
         public IFormFile Image { get; set; }

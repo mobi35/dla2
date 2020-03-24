@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/adminLayout.cshtml";
+}
+
+
+    <div style="width: 100%; " class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="padding:2%;" class="card">
+
+                    <label>Report</label>
+
+                    <select class="form-control" id="report_type">
+                        <option value="master_student">Student masterlist</option>
+                        <option value="subject_per_grade">Subject per grade</option>
+                        <option value="subject_per_section">Subject per section</option>
+                        <option value="subject_for_teacher">Subject for teachers</option>
+                    </select>
+
+                    <button id="report_button">Show Report</button>
+
+
+                    <div id="output_report">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    <script>
+                        $('#report_button').click(function () {
+
+                            var typeOfReport = $('#report_type').val();
+                            var title = "";
+                            $.ajax({
+
+                                url: '/Report/GetReport',
+                                type: 'GET',
+                                data: { type: typeOfReport },
+                                success: function (e) {
+
+                                    $('#output_report').html(e);
+
+                                    if (typeOfReport == "master_student") {
+                                        title = "Student Masterlist";
+                                    }else if (typeOfReport == "subject_per_grade") {
+                                        title = "Subject Per Grade";
+                                    }else if (typeOfReport == "subject_per_section") {
+                                        title = "Subject Per Section";
+                                    }else if (typeOfReport == "subject_for_teacher") {
+                                        title = "Teacher's Subject";
+                                    }
+
+                                    $(document).ready(function () {
+
+                                        $('#reportDatatable').DataTable({
+
+                                            responsive: true,
+
+                                            "lengthMenu": [50, 100, 500, 1000, 2000, 5000, 10000, 50000, 100000],
+                                            "order": [],
+                                         
+                                        
+                                            dom: 'lBfrtip',
+                                            buttons: [
+                                                {
+                                                    extend: 'print',
+                                                    title: '<h1 style="margin-left:10%;"> Divine Light Academy </h1> <br><center> <h3> ' +title+ ' </h3> </center>'
+                                                    , exportOptions: {
+                                                        columns: ':visible',
+                                                        stripHtml: false,
+                                                    },
+                                                    customize: function (win) {
+                                                        $(win.document.body)
+                                                            .css({ 'font-size': '10pt' })
+                                                            .prepend(
+                                                                '<img src="https://i.ibb.co/0Qm8S3S/logo.jpg"  style="position:absolute; height:100px; z-index:800000; width:100px; top:0; left:0;" />'
+                                                            );
+
+                                                        $(win.document.body).find('table')
+                                                            .addClass('compact')
+                                                            .css('font-size', 'inherit');
+                                                    }
+                                                }, 'excelHtml5', {
+                                                    extend: 'pdf',
+                                                    download: 'open',
+                                                }
+                                            ]
+
+                                        });
+                                    });
+
+
+                                }
+
+                            });
+
+                        });
+                    </script>
+
+
+
+                    <script src="~/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+                    <script src="~/DataTables-1.10.18/js/dataTables.buttons.min.js"></script>
+                    <script src="~/DataTables-1.10.18/js/buttons.print.min.js"></script>
+
+                    <script src="~/DataTables-1.10.18/js/pdfmake.min.js"></script>
+                    <script src="~/DataTables-1.10.18/js/vfs_fonts.js"></script>
+                    <script src="~/DataTables-1.10.18/js/buttons.html5.min.js"></script>
+                    <script src="~/DataTables-1.10.18/js/jszip.min.js"></script>
+                    <script src="~/DataTables-1.10.18/js/dataTables.responsive.min.js"></script>
+                    <script src="~/DataTables-1.10.18/js/responsive.bootstrap4.min.js"></script>
+
+                    <link href="~/DataTables-1.10.18/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+                    <link href="~/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+                    <link href="~/DataTables-1.10.18/css/button.css" rel="stylesheet" />
+                    <script src="~/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>

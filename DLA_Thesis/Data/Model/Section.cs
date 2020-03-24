@@ -12,5 +12,6 @@ namespace DLA_Thesis.Data.Model
         public int SectionNumber { get; set; }
         public string SectionName { get; set; }
         public int TeacherID { get; set; }
+        public string RoomNumber { get; set; }
     }
 }

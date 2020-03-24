@@ -1,6 +1,9 @@
 ﻿@model TeacherSectionViewModel
 @using DLA_Thesis.Data.Model.Interface
 @inject ITeacherRepository TeacherRepository
+
+@inject IRoomRepository RoomRepository
+
 @{
     ViewData["Title"] = "Section List";
     Layout = "~/Views/Shared/adminLayout.cshtml";
@@ -55,25 +58,36 @@
                             }
                         </select>
                     </div>
-                  
 
 
-                
+                    <div class="form-group">
+                        <label>Room</label>
+                        <select class="form-control" id="room_name">
+                            @{
+
+                                foreach (var t in RoomRepository.GetAll().Where(a => a.SectionID == 0))
+                                {
+                                    <option value="@t.RoomNumber">Room : @t.RoomNumber</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
 
 
 
                 </div>
-                    <div class="modal-footer">
-                        <div class="left-side">
-                            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
-                        </div>
-                        <div class="divider"></div>
-                        <div class="right-side">
-                            <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
-                        </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
                     </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
 
-</form>
+            </form>
 
         </div>
     </div>
@@ -125,15 +139,15 @@
 
 
 
-                    <div class="modal-footer">
-                        <div class="left-side">
-                            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
-                        </div>
-                        <div class="divider"></div>
-                        <div class="right-side">
-                            <input type="submit" class="btn btn-danger btn-simple" />
-                        </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
                     </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input type="submit" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
 
             </form>
 
@@ -177,6 +191,7 @@
                             <th style="color:#51cbce;">Grade</th>
                             <th style="color:#51cbce;">Section Number</th>
                             <th style="color:#51cbce;">Section Name</th>
+                            <th style="color:#51cbce;">Room</th>
                             <th style="color:#51cbce;">Adviser</th>
                             <th style="color:#51cbce;">Action</th>
                         </tr>
@@ -185,46 +200,48 @@
                         @{
                             foreach (var m in Model.Section)
                             {
-                        <tr>
-                            <td>@m.Grade</td>
-                            <td>@m.SectionNumber</td>
-                            <td>@m.SectionName</td>
-                            <td>
-                                @{
-                                    if (TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID) == null)
-                                    {
-                                        Html.Raw("N/A");
-                                    }
-                                    else
-                                    {
-                                        @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).FirstName
-                                        @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).MiddleName
-                                        @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).LastName
-                                    }
+                                                <tr>
+                                                    <td>@m.Grade</td>
+                                                    <td>@m.SectionNumber</td>
+                                                    <td>@m.SectionName</td>
+                                                    <td>@m.RoomNumber</td>
+                                                    <td>
+                                                        @{
+                                                            if (TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID) == null)
+                                                            {
+                                                                Html.Raw("N/A");
+                                                            }
+                                                            else
+                                                            {
+                                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).FirstName
+                                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).MiddleName
+                                                                @TeacherRepository.FindTeacher(a => a.TeacherID == m.TeacherID).LastName
+                                                            }
 
-                                }
+                                                        }
 
 
-                            </td>
+                                                    </td>
 
-                            <td>
-                                <button onclick="GetID(@m.SectionID)" class="btn btn-sm" data-toggle="modal" data-target="#edit-modal">
-                                    Edit Adviser
-                                </button>
-                            </td>
-                       
-                            <td>
-                                @{
-                                    if(m.TeacherID != 0) { 
-                                    <a asp-controller="Section" asp-action="RemoveAdvisory" asp-route-id="@m.TeacherID" class="btn btn-sm">
-                                        Remove Adviser
-                                    </a>
-                                    }
+                                                    <td>
+                                                        <button onclick="GetID(@m.SectionID)" class="btn btn-sm" data-toggle="modal" data-target="#edit-modal">
+                                                            Edit Adviser
+                                                        </button>
+                                                    </td>
 
-                                }
-                            </td>
+                                                    <td>
+                                                        @{
+                                                            if (m.TeacherID != 0)
+                                                            {
+                                                                <a asp-controller="Section" asp-action="RemoveAdvisory" asp-route-id="@m.TeacherID" class="btn btn-sm">
+                                                                    Remove Adviser
+                                                                </a>
+                                                            }
 
-                        </tr>
+                                                        }
+                                                    </td>
+
+                                                </tr>
                             }
 
                         }
@@ -240,28 +257,28 @@
 <script>
 
 
-        
+
 
 
 
 
 
     $('#sectionnav').addClass('active');
-    
+
 
     document.getElementById('section-form').onsubmit = function () {
 
         var student = new FormData();
 
 
-
+  
         var section_name = $('#section_name').val();
         var section_number = $('#section_number').val();
         var adviser = $('#adviser_name').val();
         var grade = $('#grade').val();
 
-       
-      
+           var roomName = $('#room_name').val();
+
         if (section_name == "" || section_number == "" || adviser == "" || grade == "") {
             alert("Please complete the fields");
             return false;
@@ -271,10 +288,9 @@
         student.append("SectionNumber", section_number);
         student.append("TeacherID", adviser);
         student.append("Grade", grade);
-    
-     
-     
-        
+         student.append("RoomNumber", roomName);
+
+
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/Section/Create');
         xhr.send(student);
@@ -288,10 +304,10 @@
                     return false;
                 }
 
-                   if (xhr.response.responseText == "existingteacher") {
+                if (xhr.response.responseText == "existingteacher") {
                     alert("This teacher is already existed");
                     return false;
-                   }
+                }
 
                 if (xhr.responseText == "") {
                     alert("section added");
@@ -314,11 +330,11 @@
         var sectionID = $('#section-id').val();
         var editTeacher = $('#edit-teacher-id').val();
 
-    
+
 
         student.append("SectionID", sectionID);
         student.append("TeacherID", editTeacher);
-       
+
 
 
         var xhr = new XMLHttpRequest();
@@ -341,7 +357,7 @@
 
     }
 
-  
+
 
 
 

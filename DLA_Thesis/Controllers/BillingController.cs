@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DLA_Thesis.Data.Model;
 using DLA_Thesis.Data.Model.Interface;
+using DLA_Thesis.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -36,6 +37,14 @@ namespace DLA_Thesis.Controllers
             return View("Index");
         }
 
+        public IActionResult Paid(int id)
+        {
+          var billing =  billingRepo.FindBilling(a => a.BillingID == id);
+            billing.Status = "Paid";
+            billingRepo.Update(billing);
+
+            return View("Index", billingRepo.GetAll());
+        }
         public IActionResult Student()
         {
             return View();
@@ -44,8 +53,23 @@ namespace DLA_Thesis.Controllers
         public JsonResult MyBillings(string username)
         {
            var student = studentRepo.FindStudent(a => a.LRN == username);
-           var ListOfFees =  feeRepo.GetAll().Where(a => a.GradeLevel == student.CurrentGrade);
+           var ListOfFees =  billingRepo.GetAll().Where(a => a.Grade == student.CurrentGrade && a.LRN == student.LRN);
             return Json(ListOfFees);
+        }
+
+        public JsonResult GetInvoice(int id)
+        {
+
+            var billing = billingRepo.FindBilling(a => a.BillingID == id);
+
+            InvoiceModel invoiceModel = new InvoiceModel
+            {
+                Billing = billing,
+                Fee = feeRepo.FindFee(a => a.FeeID == billing.FeeID),
+                Student = studentRepo.FindStudent(a => a.LRN == billing.LRN)
+            };
+
+            return Json(invoiceModel);
         }
 
     }
