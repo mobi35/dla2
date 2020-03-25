@@ -11,12 +11,14 @@ namespace DLA_Thesis.Controllers
 {
     public class SectionController : Controller
     {
+        private readonly IScheduleRepository scheduleRepo;
         private readonly IRoomRepository roomRepo;
         private readonly ISectionRepository sectionRepo;
         private readonly ITeacherRepository teacherRepo;
 
-        public SectionController(IRoomRepository roomRepo,  ISectionRepository sectionRepo, ITeacherRepository teacherRepo)
+        public SectionController(IScheduleRepository scheduleRepo, IRoomRepository roomRepo,  ISectionRepository sectionRepo, ITeacherRepository teacherRepo)
         {
+            this.scheduleRepo = scheduleRepo;
             this.roomRepo = roomRepo;
             this.sectionRepo = sectionRepo;
             this.teacherRepo = teacherRepo;
@@ -95,6 +97,24 @@ namespace DLA_Thesis.Controllers
 
             return "";
 
+        }
+
+        public JsonResult ViewSched(int id)
+        {
+            var section = sectionRepo.FindSection(a => a.SectionID == id);
+         
+            var sched = scheduleRepo.GetAll().Where(a => a.SectionName == section.SectionName).ToList();
+            var teacherSched = new List<SchedTeachersViewModel>();
+            foreach(var s in sched)
+            {
+                teacherSched.Add(new SchedTeachersViewModel
+                {
+                    Schedule = s,
+                    Teacher = teacherRepo.FindTeacher(a => a.TeacherID == s.TeacherID)
+                });
+            }
+            
+            return Json(teacherSched);
         }
     }
 }
