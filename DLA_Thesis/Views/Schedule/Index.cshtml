@@ -25,43 +25,37 @@
                     <input type="hidden" id="edit_schedule_id" />
                     <label>Starting-Time</label>
                     <div class="form-group">
-                        <select id="e_start_time" class="form-control">
+                        <select id="start_time" class="form-control">
                             <option value="7:45 AM">7:45 AM</option>
                             <option value="8:30 AM">8:30 AM</option>
                             <option value="9:15 AM">9:15 AM</option>
-                            <option value="10:00 AM">10:00 AM</option>
-                            <option value="10:45 AM">10:45 AM</option>
-                            <option value="11:30 AM">11:30 AM</option>
-                            <option value="12:15 PM">12:15 PM</option>
+                            <option value="9:45 AM">9:45 AM</option>
+                            <option value="10:30 AM">10:30 AM</option>
+                            <option value="11:15 AM">11:15 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
                             <option value="1:00 PM">1:00 PM</option>
                             <option value="1:45 PM">1:45 PM</option>
                             <option value="2:30 PM">2:30 PM</option>
-                            <option value="3:15 PM">3:15 PM</option>
-                            <option value="4:00 PM">4:00 PM</option>
-                            <option value="4:45 PM">4:45 PM</option>
-                            <option value="5:30 PM">5:30 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="3:45 PM">3:45 PM</option>
                         </select>
                     </div>
                     <label>Ending-Time</label>
                     <div class="form-group">
-
-                        <select id="e_end_time" class="form-control">
+                        <select id="start_time" class="form-control">
                             <option value="7:45 AM">7:45 AM</option>
                             <option value="8:30 AM">8:30 AM</option>
                             <option value="9:15 AM">9:15 AM</option>
-                            <option value="10:00 AM">10:00 AM</option>
-                            <option value="10:45 AM">10:45 AM</option>
-                            <option value="11:30 AM">11:30 AM</option>
-                            <option value="12:15 PM">12:15 PM</option>
+                            <option value="9:45 AM">9:45 AM</option>
+                            <option value="10:30 AM">10:30 AM</option>
+                            <option value="11:15 AM">11:15 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
                             <option value="1:00 PM">1:00 PM</option>
                             <option value="1:45 PM">1:45 PM</option>
                             <option value="2:30 PM">2:30 PM</option>
-                            <option value="3:15 PM">3:15 PM</option>
-                            <option value="4:00 PM">4:00 PM</option>
-                            <option value="4:45 PM">4:45 PM</option>
-                            <option value="5:30 PM">5:30 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="3:45 PM">3:45 PM</option>
                         </select>
-
                     </div>
 
                 </div>
@@ -126,7 +120,7 @@
                     <div class="form-group">
                         <label>Teacher</label>
                         <select class="form-control" id="adviser_name">
-                        
+
                             @{
 
                                 foreach (var t in Model.Teacher)
@@ -137,7 +131,7 @@
                         </select>
                     </div>
 
-                   
+
 
 
                     <label>Subjects</label>
@@ -150,39 +144,33 @@
                             <option value="7:45 AM">7:45 AM</option>
                             <option value="8:30 AM">8:30 AM</option>
                             <option value="9:15 AM">9:15 AM</option>
-                            <option value="10:00 AM">10:00 AM</option>
-                            <option value="10:45 AM">10:45 AM</option>
-                            <option value="11:30 AM">11:30 AM</option>
-                            <option value="12:15 PM">12:15 PM</option>
+                            <option value="9:45 AM">9:45 AM</option>
+                            <option value="10:30 AM">10:30 AM</option>
+                            <option value="11:15 AM">11:15 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
                             <option value="1:00 PM">1:00 PM</option>
                             <option value="1:45 PM">1:45 PM</option>
                             <option value="2:30 PM">2:30 PM</option>
-                            <option value="3:15 PM">3:15 PM</option>
-                            <option value="4:00 PM">4:00 PM</option>
-                            <option value="4:45 PM">4:45 PM</option>
-                            <option value="5:30 PM">5:30 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="3:45 PM">3:45 PM</option>
                         </select>
                     </div>
                     <label>Ending-Time</label>
                     <div class="form-group">
-
-                        <select id="end_time" class="form-control">
+                        <select id="start_time" class="form-control">
                             <option value="7:45 AM">7:45 AM</option>
                             <option value="8:30 AM">8:30 AM</option>
                             <option value="9:15 AM">9:15 AM</option>
-                            <option value="10:00 AM">10:00 AM</option>
-                            <option value="10:45 AM">10:45 AM</option>
-                            <option value="11:30 AM">11:30 AM</option>
-                            <option value="12:15 PM">12:15 PM</option>
+                            <option value="9:45 AM">9:45 AM</option>
+                            <option value="10:30 AM">10:30 AM</option>
+                            <option value="11:15 AM">11:15 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
                             <option value="1:00 PM">1:00 PM</option>
                             <option value="1:45 PM">1:45 PM</option>
                             <option value="2:30 PM">2:30 PM</option>
-                            <option value="3:15 PM">3:15 PM</option>
-                            <option value="4:00 PM">4:00 PM</option>
-                            <option value="4:45 PM">4:45 PM</option>
-                            <option value="5:30 PM">5:30 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="3:45 PM">3:45 PM</option>
                         </select>
-
                     </div>
 
                 </div>
@@ -192,7 +180,7 @@
                     </div>
                     <div class="divider"></div>
                     <div class="right-side">
-                        <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
+                        <input id="register_student" onclick="return confirm('Please check the data before proceeding.')" type="submit" class="btn btn-danger btn-simple" />
                     </div>
                 </div>
 

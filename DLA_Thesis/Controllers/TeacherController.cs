@@ -152,5 +152,11 @@ namespace DLA_Thesis.Controllers
 
             return Json(studentGrade);
         }
+
+        public IActionResult Teacher()
+        {
+
+            return View();
+        }
     }
 }

@@ -133,3 +133,4 @@ C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_T
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Room\Index.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Report\Index.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.csprojAssemblyReference.cache
+C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Teacher\Profile.cshtml.g.cs

@@ -50,7 +50,7 @@
                     </div>
                     <div class="divider"></div>
                     <div class="right-side">
-                        <input id="register-fees" type="submit" class="btn btn-danger btn-simple" />
+                        <input id="register-fees" type="submit" onclick="return confirm('Please check the data before proceeding.')" class="btn btn-danger btn-simple" />
                     </div>
                 </div>
 
@@ -187,6 +187,17 @@
         var paymentName = $('#payment-name').val();
         var paymentPrice = $('#payment-price').val();
          var grade = $('#grade').val();
+
+
+        if (paymentPrice < 0) {
+            alert("No negative values");
+            return false;
+        }
+
+        if (grade == "") {
+            alert("You need to indicate the grade");
+            return false;
+        }
 
         student.append("PaymentName", paymentName);
         student.append("PaymentPrice", paymentPrice);
