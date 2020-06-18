@@ -25,7 +25,7 @@
 
                     <div class="form-group">
                         <label>Price</label>
-                        <input id="payment-price" type="text" class="form-control" />
+                        <input id="payment-price" type="number" class="form-control" />
                         <small id="payment-price-v" style="color:red;"></small>
                     </div>
 
@@ -87,7 +87,7 @@
 
                     <div class="form-group">
                         <label>Price</label>
-                        <input id="payment-price-edit" type="text" class="form-control" />
+                        <input id="payment-price-edit" type="number" class="form-control" />
                         <small id="payment-price-v" style="color:red;"></small>
                     </div>
 
@@ -135,6 +135,7 @@
                             <th style="color:#51cbce;">LRN</th>
                             <th style="color:#51cbce;">Full Name</th>
                             <th style="color:#51cbce;">Grade</th>
+                            <th style="color:#51cbce;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -149,6 +150,16 @@
                                         <button onclick="GetFeeID(@m.FeeID,'@FeeRepository.FindFee(a => a.FeeID == m.FeeID).PaymentName','@FeeRepository.FindFee(a => a.FeeID == m.FeeID).PaymentPrice','@FeeRepository.FindFee(a => a.FeeID == m.FeeID).GradeLevel'    )" class="btn btn-neutral" data-toggle="modal" data-target="#editFee">
                                             Edit Fee
                                         </button>
+                                        @{
+
+                                            if (m.PaymentName != "Tuition Fee")
+                                            {
+                                                <a onclick="return confirm('Are you really sure you want to delete this?')" class="btn btn-neutral" asp-route-id="@m.FeeID" asp-action="Delete" asp-controller="Fee">Delete</a>
+
+                                            }
+
+                                        }
+
                                     </td>
                                 </tr>
                             }
@@ -188,7 +199,9 @@
         xhr.onreadystatechange = function () {
 
             if (xhr.readyState == 4 && xhr.status == 200) {
-                if (xhr.responseText == "") {
+                if (xhr.responseText == "existing_name") {
+                    alert("Existing Name");
+                } else if (xhr.responseText == "") {
                     alert("Added");
                     window.open("../../Fee/Index", "_self");
                 }
@@ -221,10 +234,16 @@
         xhr.onreadystatechange = function () {
 
             if (xhr.readyState == 4 && xhr.status == 200) {
-                if (xhr.responseText == "") {
+
+              
+                 if (xhr.responseText == "existing_name") {
+                    alert("Existing Name");
+               
+                }else if (xhr.responseText == "") {
                     alert("Updated");
                     window.open("../../Fee/Index", "_self");
                 }
+                
             }
         }
 

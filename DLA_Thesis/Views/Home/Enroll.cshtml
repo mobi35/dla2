@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Enroll";
-    Layout = "~/Views/Shared/homeLayout.cshtml";
+    Layout = "~/Views/Shared/adminLayout.cshtml";
 }
 
 
@@ -33,8 +33,8 @@
         <div class="row">
             <div class="col">
                 <div class="section_title_container text-center">
-                    <h2 class="section_title">Welcome To Divine Light Academy</h2>
-                    <div class="section_subtitle"><p>For the glory of God —The Light Shines Brighter!</p></div>
+                    <h2 class="section_title">Student Enroll</h2>
+                  
                 </div>
             </div>
         </div>
@@ -275,10 +275,6 @@
                     <option value="quarterly">Quarterly</option>
                 </select>
             </div>
-
-
-         
-
 
             <br />
             <h3>Requirements</h3>
@@ -526,7 +522,6 @@
                     $('#image').html("");
                 }
 
-                alert(data);
 
                 if (data.split(',').includes("email_exist")) {
                     $('#email').html("Email already exist");

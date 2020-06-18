@@ -92,7 +92,6 @@ C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\bin\Debug\netcoreapp2.2\DLA_T
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\bin\Debug\netcoreapp2.2\DLA_Thesis.pdb
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\bin\Debug\netcoreapp2.2\DLA_Thesis.Views.dll
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\bin\Debug\netcoreapp2.2\DLA_Thesis.Views.pdb
-C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.csprojAssemblyReference.cache
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.RazorAssemblyInfo.cache
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.RazorAssemblyInfo.cs
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.AssemblyInfoInputs.cache
@@ -133,3 +132,4 @@ C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_T
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.csproj.CopyComplete
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Room\Index.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\Razor\Views\Report\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\lyn\dla\DLA_Thesis\obj\Debug\netcoreapp2.2\DLA_Thesis.csprojAssemblyReference.cache

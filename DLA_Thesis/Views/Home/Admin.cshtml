@@ -1,9 +1,9 @@
-﻿
-
+﻿@model Dashboard
 @{
     Layout = "adminLayout";
     ViewData["Title"] = "Admin";
 }
+
 
 
 
@@ -18,8 +18,8 @@
                 </div>
                 <div class="col-7 col-md-8">
                     <div class="numbers">
-                        <p class="card-category">Capacity</p>
-                        <p class="card-title">150GB
+                        <p class="card-category">Number of student</p>
+                        <p class="card-title">@Model.NumberOfStudent
                         <p>
                     </div>
                 </div>
@@ -27,9 +27,7 @@
         </div>
         <div class="card-footer ">
             <hr>
-            <div class="stats">
-                <i class="fa fa-refresh"></i> Update Now
-            </div>
+            
         </div>
     </div>
 </div>
@@ -44,18 +42,16 @@
                 </div>
                 <div class="col-7 col-md-8">
                     <div class="numbers">
-                        <p class="card-category">Revenue</p>
-                        <p class="card-title">$ 1,345
-                        <p>
+                        <p class="card-category">Number of Teachers</p>
+                        <p class="card-title">@Model.NumberOfTeacher
+<p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card-footer ">
             <hr>
-            <div class="stats">
-                <i class="fa fa-calendar-o"></i> Last day
-            </div>
+           
         </div>
     </div>
 </div>
@@ -70,18 +66,16 @@
                 </div>
                 <div class="col-7 col-md-8">
                     <div class="numbers">
-                        <p class="card-category">Errors</p>
-                        <p class="card-title">23
-                        <p>
+                        <p class="card-category">Number of Employees</p>
+                        <p class="card-title"> @Model.NumberOfEmployees
+<p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card-footer ">
             <hr>
-            <div class="stats">
-                <i class="fa fa-clock-o"></i> In the last hour
-            </div>
+          
         </div>
     </div>
 </div>
@@ -96,8 +90,8 @@
                 </div>
                 <div class="col-7 col-md-8">
                     <div class="numbers">
-                        <p class="card-category">Followers</p>
-                        <p class="card-title">+45K
+                        <p class="card-category">Total Payments</p>
+                        <p class="card-title"> @Model.TotalPayments
                         <p>
                     </div>
                 </div>
@@ -105,75 +99,417 @@
         </div>
         <div class="card-footer ">
             <hr>
-            <div class="stats">
-                <i class="fa fa-refresh"></i> Update now
-            </div>
-        </div>
-    </div>
-</div>
-               
-<div class="row">
-    <div class="col-md-12">
-        <div class="card ">
-            <div class="card-header ">
-                <h5 class="card-title">Users Behavior</h5>
-                <p class="card-category">24 Hours performance</p>
-            </div>
-            <div class="card-body ">
-                <canvas id=chartHours width="400" height="100"></canvas>
-            </div>
-            <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                    <i class="fa fa-history"></i> Updated 3 minutes ago
-                </div>
-            </div>
+         
         </div>
     </div>
 </div>
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card ">
             <div class="card-header ">
-                <h5 class="card-title">Email Statistics</h5>
-                <p class="card-category">Last Campaign Performance</p>
+                <h5 class="card-title">Payments</h5>
+               
             </div>
             <div class="card-body ">
-                <canvas id="chartEmail"></canvas>
+                <canvas id="chart" width="400" height="250"></canvas>
+                <script>
+                    var ccc = document.getElementById('chart').getContext('2d');
+                    var chart = new Chart(ccc, {
+                        type: 'bar',
+                        data: {
+                            labels: ["Jan","Feb","Mar","April","May","June","Jul","Aug","Sep","Oct","Nov","Dec"],
+                            datasets: [{
+                                label: 'Total Payment',
+                                data: JSON.parse('@Html.Raw(Json.Serialize(Model.PaymentsChartValues))'),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
             </div>
-            <div class="card-footer ">
-                <div class="legend">
-                    <i class="fa fa-circle text-primary"></i> Opened
-                    <i class="fa fa-circle text-warning"></i> Read
-                    <i class="fa fa-circle text-danger"></i> Deleted
-                    <i class="fa fa-circle text-gray"></i> Unopened
-                </div>
-                <hr>
-                <div class="stats">
-                    <i class="fa fa-calendar"></i> Number of emails sent
-                </div>
-            </div>
+           
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="card card-chart">
             <div class="card-header">
-                <h5 class="card-title">NASDAQ: AAPL</h5>
-                <p class="card-category">Line Chart with Points</p>
+                <h5 class="card-title">Enrolled per subject</h5>
             </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
             <div class="card-body">
-                <canvas id="speedChart" width="400" height="100"></canvas>
+                <canvas id="myChart" width="400" height="250"></canvas>
+                <script>
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectLabelGrade7))'),
+                            datasets: [{
+                                label: '# of Subject',
+                                data: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectValuesGrade7))'),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
             </div>
-            <div class="card-footer">
-                <div class="chart-legend">
-                    <i class="fa fa-circle text-info"></i> Tesla Model S
-                    <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                </div>
-                <hr />
-                <div class="card-stats">
-                    <i class="fa fa-check"></i> Data information certified
-                </div>
-            </div>
+          
+
+
         </div>
     </div>
+
+
+
+
+
+    <div class="col-md-6">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-title">Enrolled per subject</h5>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+            <div class="card-body">
+                <canvas id="grade8Chart" width="400" height="250"></canvas>
+                <script>
+                    var grade8Chart = document.getElementById('grade8Chart').getContext('2d');
+                    var chart8 = new Chart(grade8Chart, {
+                        type: 'pie',
+                        data: {
+                            labels: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectLabelGrade8))'),
+                            datasets: [{
+                                label: '# of Subject',
+                                data: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectValuesGrade8))'),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="col-md-6">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-title">Enrolled per subject</h5>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+            <div class="card-body">
+                <canvas id="grade9Chart" width="400" height="250"></canvas>
+                <script>
+                    var grade9Chart = document.getElementById('grade9Chart').getContext('2d');
+                    var chart9 = new Chart(grade9Chart, {
+                        type: 'pie',
+                        data: {
+                            labels: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectLabelGrade9))'),
+                            datasets: [{
+                                label: '# of Subject',
+                                data: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectValuesGrade9))'),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-title">Enrolled per subject</h5>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+            <div class="card-body">
+                <canvas id="grade10Chart" width="400" height="250"></canvas>
+                <script>
+                    var grade10Chart = document.getElementById('grade10Chart').getContext('2d');
+                    var chart10 = new Chart(grade10Chart, {
+                        type: 'pie',
+                        data: {
+                            labels: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectLabelGrade10))'),
+                            datasets: [{
+                                label: '# of Subject',
+                                data: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectValuesGrade10))'),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+         
+
+        </div>
+    </div>
+
+
+
+
+
+    <div class="col-md-6">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-title">Enrolled per subject</h5>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+            <div class="card-body">
+                <canvas id="grade11Chart" width="400" height="250"></canvas>
+                <script>
+                    var grade11Chart = document.getElementById('grade11Chart').getContext('2d');
+                    var chart11 = new Chart(grade11Chart, {
+                        type: 'pie',
+                        data: {
+                            labels: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectLabelGrade11))'),
+                            datasets: [{
+                                label: '# of Subject',
+                                data: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectValuesGrade11))'),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+         
+
+
+        </div>
+    </div>
+
+
+
+    <div class="col-md-6">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-title">Enrolled per subject</h5>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+            <div class="card-body">
+                <canvas id="grade12Chart" width="400" height="250"></canvas>
+                <script>
+                    var grade12Chart = document.getElementById('grade12Chart').getContext('2d');
+                    var chart12 = new Chart(grade12Chart, {
+                        type: 'pie',
+                        data: {
+                            labels: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectLabelGrade12))'),
+                            datasets: [{
+                                label: '# of Subject',
+                                data: JSON.parse('@Html.Raw(Json.Serialize(Model.EnrolledPerSubjectValuesGrade12))'),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+          
+
+        </div>
+    </div>
+
+
+
+
+    <div class="col-md-6">
+
+    </div>
+
+
+</div>

@@ -286,7 +286,19 @@ namespace DLA_Thesis.Controllers
             studentRepo.Create(student);
 
 
-            if(student.ModeOfPayment == "cash")
+            foreach (var fee in feeRepo.GetAll().Where(a => a.GradeLevel == student.CurrentGrade && a.PaymentName != "Tuition Fee").ToList())
+            {
+                Billing billing = new Billing();
+                billing.Payment = fee.PaymentPrice;
+                billing.BilledDate = DateTime.Now;
+                billing.Grade = student.CurrentGrade;
+                billing.FeeID = fee.FeeID;
+                billing.LRN = student.LRN;
+                billing.Status = "Pending";
+                billingRepo.Create(billing);
+            }
+
+            if (student.ModeOfPayment == "cash")
             {
                var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == student.CurrentGrade);
 
@@ -354,10 +366,6 @@ namespace DLA_Thesis.Controllers
 
 
 
-
-
-
-
             return "success";
         }
 
@@ -382,14 +390,138 @@ namespace DLA_Thesis.Controllers
         public IActionResult Levelup(int id)
         {
             var stud = studentRepo.FindStudent(a => a.StudentID == id);
+
+
+
+            if (stud.Form137Name == null || stud.Form138Name == null || stud.BirthCertificateName == null || stud.GoodMoralName == null)
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = "<script>alert('This student cant be level up because he have pending requirements'); window.open('../Index','_self')</script>"
+                };
+            }
+
+            var getSubject = subjectRepo.GetAll().Where(a => a.Grade == stud.CurrentGrade).ToList();
+
+            foreach (var s in getSubject)
+            {
+                var grade = gradeRepo.GetAll().Where(a => a.StudentLRN == stud.LRN && a.SubjectCode ==s.SubjectCode && a.GradeLevel == s.Grade).ToList().Count();
+              
+                if (grade < 4)
+                {
+                    return new ContentResult
+                    {
+                        ContentType = "text/html",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Content = "<script>alert('This student cant be level up because he have pending grades'); window.open('../Index','_self')</script>"
+                    };
+
+                }
+            }
+
+            var getAllFee = billingRepo.GetAll().Where(a => a.Status != "Paid" && a.Grade == stud.CurrentGrade).Count();
+         
+            if (getAllFee > 0)
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = "<script>alert('This student has pending transactions'); window.open('../Index','_self')</script>"
+                };
+
+            }
+
             stud.CurrentGrade++;
             studentRepo.Update(stud);
+
+
+            if (stud.ModeOfPayment == "cash")
+            {
+                var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == stud.CurrentGrade);
+
+                Billing billing = new Billing();
+                billing.Payment = fee.PaymentPrice;
+                billing.BilledDate = DateTime.Now;
+                billing.Grade = stud.CurrentGrade;
+                billing.FeeID = fee.FeeID;
+                billing.LRN = stud.LRN;
+                billing.Status = "Pending";
+                billingRepo.Create(billing);
+            }
+            else if (stud.ModeOfPayment == "two_payment")
+            {
+                var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == stud.CurrentGrade);
+
+                var splitFee = (fee.PaymentPrice + (fee.PaymentPrice * 0.02f)) / 2;
+                for (int i = 1; i <= 2; i++)
+                {
+                    Billing billing = new Billing();
+                    billing.Payment = splitFee;
+                    billing.BilledDate = DateTime.Now.AddMonths(i);
+                    billing.Grade = stud.CurrentGrade;
+                    billing.LRN = stud.LRN;
+                    billing.FeeID = fee.FeeID;
+                    billing.Status = "Pending";
+                    billingRepo.Create(billing);
+                }
+
+            }
+            else if (stud.ModeOfPayment == "monthly")
+            {
+                var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == stud.CurrentGrade);
+                var splitFee = (fee.PaymentPrice + (fee.PaymentPrice * 0.12f)) / 12;
+                for (int i = 1; i <= 12; i++)
+                {
+                    Billing billing = new Billing();
+                    billing.Payment = splitFee;
+                    billing.BilledDate = DateTime.Now.AddMonths(i);
+                    billing.Grade = stud.CurrentGrade;
+                    billing.LRN = stud.LRN;
+                    billing.FeeID = fee.FeeID;
+                    billing.Status = "Pending";
+                    billingRepo.Create(billing);
+                }
+
+            }
+            else if (stud.ModeOfPayment == "quarterly")
+            {
+                var fee = feeRepo.FindFee(a => a.PaymentName == "Tuition Fee" && a.GradeLevel == stud.CurrentGrade);
+                var splitFee = (fee.PaymentPrice + (fee.PaymentPrice * 0.12f)) / 12;
+                for (int i = 1; i <= 4; i++)
+                {
+                    Billing billing = new Billing();
+                    billing.Payment = splitFee;
+                    billing.BilledDate = DateTime.Now.AddMonths(3 * i); ;
+                    billing.Grade = stud.CurrentGrade;
+                    billing.LRN = stud.LRN;
+                    billing.FeeID = fee.FeeID;
+                    billing.Status = "Pending";
+                    billingRepo.Create(billing);
+                }
+
+            }
+
+
+            foreach (var fee in feeRepo.GetAll().Where(a => a.GradeLevel == stud.CurrentGrade && a.PaymentName != "Tuition Fee").ToList())
+            {
+                Billing billing = new Billing();
+                billing.Payment = fee.PaymentPrice;
+                billing.BilledDate = DateTime.Now;
+                billing.Grade = stud.CurrentGrade;
+                billing.FeeID = fee.FeeID;
+                billing.LRN = stud.LRN;
+                billing.Status = "Pending";
+                billingRepo.Create(billing);
+            }
 
             return new ContentResult
             {
                 ContentType = "text/html",
                 StatusCode = (int)HttpStatusCode.OK,
-                Content = "<script>alert('Successfully Levelup'); window.open('.. /User/Index','_self')</script>"
+                Content = "<script>alert('Successfully Levelup'); window.open('../Index','_self')</script>"
             };
        
         }

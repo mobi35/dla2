@@ -11,13 +11,15 @@ namespace DLA_Thesis.Controllers
 {
     public class SectionController : Controller
     {
+        private readonly ISubjectRepository subjectRepo;
         private readonly IScheduleRepository scheduleRepo;
         private readonly IRoomRepository roomRepo;
         private readonly ISectionRepository sectionRepo;
         private readonly ITeacherRepository teacherRepo;
 
-        public SectionController(IScheduleRepository scheduleRepo, IRoomRepository roomRepo,  ISectionRepository sectionRepo, ITeacherRepository teacherRepo)
+        public SectionController(ISubjectRepository subjectRepo, IScheduleRepository scheduleRepo, IRoomRepository roomRepo,  ISectionRepository sectionRepo, ITeacherRepository teacherRepo)
         {
+            this.subjectRepo = subjectRepo;
             this.scheduleRepo = scheduleRepo;
             this.roomRepo = roomRepo;
             this.sectionRepo = sectionRepo;
@@ -71,13 +73,27 @@ namespace DLA_Thesis.Controllers
         [HttpPost]
         public JsonResult GetSubject(Teacher teacher)
         {
-
+            if(teacher.Courses == null)
+            {
+                teacher.Courses = "0";
+            }
             var t = teacherRepo.FindTeacher(a => a.TeacherID == teacher.TeacherID);
-           var subjectString =  t.Skills.Split(",");
-            
-        
 
-            return Json(subjectString);
+            var level = int.Parse(teacher.Courses);
+            var subject = subjectRepo.GetAll().Where(a => a.Grade == level).ToList();
+
+            var newSubject = new List<string>();
+            foreach (var s in t.Skills.Split(","))
+            {
+                if ( subject.Select(a => a.SubjectName).Contains(s) )
+                {
+                    newSubject.Add(s);
+                }
+            }
+
+           var subjectString =  t.Skills.Split(",");
+
+            return Json(newSubject);
         }
 
         public IActionResult RemoveAdvisory(int id)

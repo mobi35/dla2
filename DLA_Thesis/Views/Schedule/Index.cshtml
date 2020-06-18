@@ -126,6 +126,7 @@
                     <div class="form-group">
                         <label>Teacher</label>
                         <select class="form-control" id="adviser_name">
+                        
                             @{
 
                                 foreach (var t in Model.Teacher)
@@ -231,6 +232,8 @@
                         <label>Teacher</label>
                         <input type="hidden" id="section-id" />
                         <select class="form-control" id="edit-teacher-id">
+                          
+
                             @{
 
                                 foreach (var t in Model.Teacher)
@@ -389,6 +392,8 @@
         $('#e_end_time').val(endTime);
         $('#edit_schedule_id').val(id);
 
+        
+
     }
 
     $(document).ready(function () {
@@ -396,6 +401,7 @@
 
             var selectSection = "";
             $('#sectiondiv').html("");
+                $('#subject_list').html('');
             $.ajax({
 
                 url: '/User/GetSection',
@@ -463,8 +469,11 @@
         $('#subject_list').html("");
         var teacher = new FormData();
         var teacherID = $(this).val();
-
+        var gradeLevel = $('#grade').val();
         teacher.append("TeacherID", teacherID);
+
+        //THIS IS PASSING THE GRADE OF SUBJECT
+        teacher.append("Courses", gradeLevel);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/Section/GetSubject');
@@ -483,7 +492,6 @@
                     subjects += '<option> ' + e + ' </option>';
 
                 });
-
 
                 subjects += "</select>";
 

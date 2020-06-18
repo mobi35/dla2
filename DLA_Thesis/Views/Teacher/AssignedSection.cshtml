@@ -17,6 +17,7 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="section_id" />
+                    <div id="subject_header"></div>
                     <br />
                     <label>Grading</label>
                     <select class="form-control" id="section_grading">
@@ -37,7 +38,10 @@
                             <tr>
                                 <th style="color:#51cbce;">LRN</th>
                                 <th style="color:#51cbce;">FULL NAME</th>
-                                <th style="color:#51cbce;">GENDER</th>
+                                <th style="color:#51cbce;">1st Grading</th>
+                                <th style="color:#51cbce;">2nd Grading</th>
+                                <th style="color:#51cbce;">3rd Grading</th>
+                                <th style="color:#51cbce;">4th Grading</th>
                             </tr>
                         </thead>
                         <tbody id="student-row">
@@ -51,9 +55,7 @@
                         <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
                     </div>
                     <div class="divider"></div>
-                    <div class="right-side">
-                        <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
-                    </div>
+                 
                 </div>
 
             </form>
@@ -106,7 +108,7 @@
                                     <td>@m.SubjectName - @m.StartTime.ToShortTimeString() - @m.EndTime.ToShortTimeString()</td>
                                     <td>40</td>
                                     <td>
-                                        <button onclick="GetSectionID(@m.ScheduleID)" class="btn btn-neutral" data-toggle="modal" data-target="#myModal">
+                                        <button onclick="GetSectionID(@m.ScheduleID, '@m.SubjectName' , '@m.Grade' )" class="btn btn-neutral" data-toggle="modal" data-target="#myModal">
                                             Show Student
                                         </button>
                                     </td>
@@ -139,37 +141,43 @@
         formData.append("ScheduleID", scheduleID);
           formData.append("Teacher",teacherEmail);
         formData.append("Grading",grading);
-      
 
         var xml = new XMLHttpRequest();
 
-        xml.open("POST", "/Teacher/UploadExcelGrades");
+        xml.open("POST", "../Teacher/UploadExcelGrades");
         xml.send(formData);
-
         
            
         if (fileInput == null) {
                alert("Please upload the excel file");
                 return false;
-        }else if (xml.responseText == "") {
-            alert("Grades has been uploaded");
-                return false;
-            }
+        }
 
-        if (xml.readyState == 4 && xml.status == 200) {
-         
+        xml.onreadystatechange = function () {
+
+              if (xml.readyState == 4 && xml.status == 200) {
+                  alert(xml.responseText);
+
+                  if (xml.responseText == "") {
+                   alert("Grades has been uploaded");
+                return false;
+               }
+
+              }
 
         }
+
+      
 
         return false;
     }
 
 
-       function GetSectionID(id) {
+       function GetSectionID(id, subject, grade) {
            var selectStudent = "";
            $('#studentList').DataTable().clear().draw();
             $('#section_id').val(id);
-       
+           $('#subject_header').html('<h3>'+grade+' - '+subject+'</h3>');
            $.ajax({
 
                url: '/Teacher/GetSection',
@@ -179,7 +187,7 @@
                 
                 for (var key of Object.keys(e)) {
 
-                      var table = $('#studentList').DataTable().row.add([e[key].lrn,e[key].firstName+' '+e[key].middleName+' '+e[key].lastName,e[key].gender]).draw(false);
+                      var table = $('#studentList').DataTable().row.add( [e[key].student.lrn,e[key].student.firstName+' '+e[key].student.middleName+' '+ e[key].student.lastName,  e[key].firstGrading  , e[key].secondGrading   ,   e[key].thirdGrading ,  e[key].fourthGrading ]).draw(false);
                 }
 
 

@@ -71,20 +71,7 @@
 
                 <ul style="display:none;" id="registrar-panel" class="nav">
 
-                    <li id="studentnav">
-                        <a asp-action="Index" asp-controller="User">
-                            <i class="nc-icon nc-single-02"></i>
-                            <p>Student</p>
-                        </a>
-                    </li>
-
-
-                    <li id="teachernav">
-                        <a asp-action="Teacher" asp-controller="User">
-                            <i class="nc-icon nc-single-02"></i>
-                            <p>Employee</p>
-                        </a>
-                    </li>
+                 
 
                     <li id="schedulenav">
                         <a asp-action="Index" asp-controller="Schedule">
@@ -108,6 +95,20 @@
                         </a>
                     </li>
 
+                    <li id="subjectnav">
+                        <a asp-action="Index" asp-controller="Subject">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Subject</p>
+                        </a>
+                    </li>
+
+
+                    <li id="sectionnav">
+                        <a asp-action="Index" asp-controller="Section">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Section</p>
+                        </a>
+                    </li>
 
 
                 </ul>
@@ -115,13 +116,21 @@
 
                 <ul style="display:none;" id="admin-panel" class="nav">
 
-
-                    <li id="subjectnav">
-                        <a asp-action="Index" asp-controller="Subject">
+                    <li id="studentnav">
+                        <a asp-action="Index" asp-controller="User">
                             <i class="nc-icon nc-single-02"></i>
-                            <p>Subject</p>
+                            <p>Student</p>
                         </a>
                     </li>
+
+
+                    <li id="teachernav">
+                        <a asp-action="Teacher" asp-controller="User">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Employee</p>
+                        </a>
+                    </li>
+
 
                     <li id="billing">
                         <a asp-action="Index" asp-controller="Billing">
@@ -137,13 +146,6 @@
                         </a>
                     </li>
 
-
-                    <li id="sectionnav">
-                        <a asp-action="Index" asp-controller="Section">
-                            <i class="nc-icon nc-single-02"></i>
-                            <p>Section</p>
-                        </a>
-                    </li>
 
 
                 </ul>

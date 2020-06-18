@@ -259,6 +259,19 @@ namespace DLA_Thesis.Migrations
                     b.ToTable("Subjects");
                 });
 
+            modelBuilder.Entity("DLA_Thesis.Data.Model.SubjectArea", b =>
+                {
+                    b.Property<int>("SubjectAreaID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AreaName");
+
+                    b.HasKey("SubjectAreaID");
+
+                    b.ToTable("SubjectAreas");
+                });
+
             modelBuilder.Entity("DLA_Thesis.Data.Model.Teacher", b =>
                 {
                     b.Property<int>("TeacherID")

@@ -120,7 +120,7 @@ namespace DLA_Thesis.Controllers
                 }
 
             }
-            return "done";
+            return "";
         }
 
 
@@ -133,9 +133,24 @@ namespace DLA_Thesis.Controllers
             var sched = scheduleRepo.FindSchedule(a => a.ScheduleID == id);
 
             var getSection = sectionRepo.FindSection(a => a.SectionName == sched.SectionName && a.SectionNumber == sched.SectionNumber);
-            
 
-            return Json(studentRepo.GetAll().Where(a => a.SectionID == getSection.SectionID).ToList());
+            var students = studentRepo.GetAll().Where(a => a.SectionID == getSection.SectionID).ToList();
+            var grades = gradeRepo.GetAll();
+
+            List<StudentGrade> studentGrade = new List<StudentGrade>();
+
+            foreach(var s in students)
+            {
+                studentGrade.Add(new StudentGrade { 
+                Student = s,
+                FirstGrading = gradeRepo.GetAll().Where(a => a.GradeLevel == s.CurrentGrade && a.SectionID == getSection.SectionID && a.Grading == 1).Select(a => a.SubjectGrade).DefaultIfEmpty(0).First(),
+                SecondGrading = gradeRepo.GetAll().Where(a => a.GradeLevel == s.CurrentGrade && a.SectionID == getSection.SectionID && a.Grading == 2).Select(a => a.SubjectGrade).DefaultIfEmpty(0).First(),
+                ThirdGrading = gradeRepo.GetAll().Where(a => a.GradeLevel == s.CurrentGrade && a.SectionID == getSection.SectionID && a.Grading == 3).Select(a => a.SubjectGrade).DefaultIfEmpty(0).First(),
+                FourthGrading = gradeRepo.GetAll().Where(a => a.GradeLevel == s.CurrentGrade && a.SectionID == getSection.SectionID && a.Grading == 4).Select(a => a.SubjectGrade).DefaultIfEmpty(0).First()
+                });
+            }
+
+            return Json(studentGrade);
         }
     }
 }

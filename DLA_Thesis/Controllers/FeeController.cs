@@ -26,8 +26,22 @@ namespace DLA_Thesis.Controllers
             return View(feeRepo.GetAll());
         }
 
+        public IActionResult Delete(int id)
+        {
+
+            var fee = feeRepo.FindFee(a => a.FeeID == id);
+            feeRepo.Delete(fee);
+
+            return View("Index", feeRepo.GetAll());
+        }
         public string Create(Fee fee)
         {
+            var checkFee = feeRepo.FindFee(a => a.PaymentName == fee.PaymentName && a.GradeLevel == fee.GradeLevel);
+
+            if(checkFee != null)
+            {
+                return "existing_name";
+            }
             feeRepo.Create(fee);
 
             return "";
@@ -35,7 +49,20 @@ namespace DLA_Thesis.Controllers
 
         public string Update(Fee fee)
         {
-            feeRepo.Update(fee);
+            var checkFirstFee = feeRepo.FindFee(a => a.FeeID == fee.FeeID);
+
+            var checkFee = feeRepo.FindFee(a => a.PaymentName == checkFirstFee.PaymentName && a.GradeLevel == fee.GradeLevel );
+
+            if (checkFee == null)
+            {
+                return "existing_name";
+            }
+
+            checkFirstFee.PaymentPrice = fee.PaymentPrice;
+            checkFirstFee.PaymentName = fee.PaymentName;
+            checkFirstFee.GradeLevel = fee.GradeLevel;
+            
+            feeRepo.Update(checkFirstFee);
             return "";
         }
 

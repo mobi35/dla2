@@ -7,6 +7,52 @@
 }
 
 
+    <div class="modal fade" id="editNow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form enctype="multipart/form-data">
+                    <div class="modal-header">
+
+                        <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                    <div class="modal-body">
+
+                            <input id="edit_area_id" type="hidden" class="form-control" />
+                       
+
+                        <div class="form-group">
+                            <label>Area Name </label>
+                            <input id="edit_area" type="text" class="form-control" />
+                        </div>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="left-side">
+                            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="right-side">
+                            <button id="update_area"  class="btn btn-danger btn-simple"> Submit</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -31,16 +77,10 @@
 
                     <div class="form-group">
                         <label>Area</label>
-                        <select class="form-control" id="area">
-                            <option>Filipino</option>
-                            <option>English</option>
-                            <option>Math</option>
-                            <option>Science</option>
-                            <option>Araling Panlipunan</option>
-                            <option>Religion</option>
-                            <option>Physical Education</option>
-                            <option>Computer Science</option>
-                        </select>
+                       
+                    <div class="form-control" id="area_select">
+
+                    </div>
                     </div>
 
 
@@ -82,6 +122,164 @@
 </button>
 
 
+
+
+
+
+
+<div class="modal fade" id="areaList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="subjectRegistration" enctype="multipart/form-data">
+                <div class="modal-header">
+
+                    <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+                <div class="modal-body">
+
+
+                    <input class="form-control" type="text" id="area_name" />
+                 
+                    <button id="sendButton" class="btn btn-primary">Add Area</button>
+                    <br />
+
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th>Area</th>
+                              <th>Action</th>
+                          </tr>
+                      </thead>
+                      <tbody class="tbody_area">
+                        
+                      </tbody>
+                  </table>
+
+                </div>
+
+                <script>
+                    $(document).ready(function () {
+                   
+                        var c = "";
+                        $.ajax({
+
+                            url: '../Subject/GetAllArea',
+                            type: 'GET',
+                            success: function (e) {
+                                c += '<select class = "form-control" id = "area" >';
+                                for (var key in Object.keys(e)) {
+                                    c += '<option value = "' + e[key].areaName + '">' + e[key].areaName + '</option> ';
+                                }
+                                c += "</select>";
+                                $('#area_select').html(c);
+                            }
+
+                        });
+
+
+                        var t = "";
+                        $.ajax({
+
+                            url: '../Subject/GetAllArea',
+                            type: 'GET',
+                            success: function (e) {
+
+                                for (var key in Object.keys(e)) {
+
+
+                                    t += '<tr> <td>' + e[key].areaName + " </td> <td> <a class='btn btn-neutral' data-toggle='modal' data-target='#editNow' onclick = ' Edit(" + e[key].subjectAreaID + " , \" " + e[key].areaName + " \" ) '> Edit</a> </td> </tr>";
+
+
+                                }
+
+                                $('.tbody_area').html(t);
+                            }
+
+                        });
+
+               
+
+                        var editAreaID = $('#edit_area_id').val();
+                         var editAreaName =  $('#edit_area').val();
+
+                        $('#update_area').click(function () {
+
+                            $.ajax({
+
+                                url: '../Subject/UpdateArea',
+                                type: 'POST',
+                                data: {editAreaID :  $('#edit_area_id').val() , editAreaName :  $('#edit_area').val()},
+                                success: function (e) {
+                                    if (e == "existing_area") {
+                                        alert("This area is already existed");
+                                        return false;
+                                    }
+
+                                    if (e == "") {
+                                        alert("Area Updated");
+                                        window.open("../Subject/","_self");
+                                          return false;
+                                    }
+                                }
+
+                            });
+                              return false;
+                        });
+                        
+
+                    });
+
+
+                
+
+
+                             var areaName = $('#area_name').val();
+                  
+                        $('#sendButton').click(function () {
+
+                            $.ajax({
+
+                                url: '../Subject/CreateArea',
+                                type: 'POST',
+                                data: { "areaName" : $('#area_name').val() },
+                                success: function (e) {
+                                     if (e == "existing_area") {
+                                        alert("This area is already existed");
+                                        return false;
+                                    }
+
+                                    if (e == "") {
+                                        alert("Area Added");
+                                          window.open("../Subject/","_self");
+                                        return false;
+                                    }
+                                }
+
+                            });
+                              return false;
+                        });
+
+                </script>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <input id="register_student" type="submit" class="btn btn-danger btn-simple" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-neutral" data-toggle="modal" data-target="#areaList">
+   View Area
+</button>
+
 <style>
 
     .buttons-print {
@@ -117,12 +315,12 @@
                         @{
                             foreach (var m in Model)
                             {
-                                                <tr>
-                                                    <td>@m.SubjectCode</td>
-                                                    <td>@m.Grade</td>
-                                                    <td>@m.SubjectName</td>
-                                                    <td>@m.Areas</td>
-                                                </tr>
+                                <tr>
+                                    <td>@m.SubjectCode</td>
+                                    <td>@m.Grade</td>
+                                    <td>@m.SubjectName</td>
+                                    <td>@m.Areas</td>
+                                </tr>
                             }
 
                         }
@@ -135,25 +333,31 @@
 
 <script>
 
+    function Edit(id, area) {
+        $('#areaList').hide();
+                        $('#edit_area_id').val(id);
+                         $('#edit_area').val(area);
+           }
+
     document.getElementById('subjectRegistration').onsubmit = function () {
 
         var student = new FormData();
 
-     
-            var subjectCode = $('#subject-code').val();
+
+        var subjectCode = $('#subject-code').val();
         var subject = $('#subject').val();
         var grade = $('#grade').val();
-         var area = $('#area').val();
-      
-        if (subject == "" || grade == ""  ) {
+        var area = $('#area').val();
+
+        if (subject == "" || grade == "") {
             alert("Please complete the fields");
             return false;
         }
-         student.append("SubjectCode", subjectCode);
+        student.append("SubjectCode", subjectCode);
         student.append("Subjectname", subject);
         student.append("Grade", grade);
-            student.append("Areas", area);
-      
+        student.append("Areas", area);
+
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/Subject/CreateSubject');
         xhr.send(student);
@@ -161,7 +365,10 @@
 
             if (xhr.readyState == 4 && xhr.status == 200) {
 
-
+                if ("existing_subject" == xhr.responseText) {
+                    alert("Its either subject code or subject name is already existed");
+                    return false;
+                }
                 if (xhr.responseText == "") {
                     alert("subject added");
                     window.open("../../Subject/Index", "_self");

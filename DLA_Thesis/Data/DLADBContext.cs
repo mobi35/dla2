@@ -22,5 +22,7 @@ namespace DLA_Thesis.Data
         public DbSet<Fee> Fees { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Billing> Bilings { get; set; }
+
+        public DbSet<SubjectArea> SubjectAreas { get; set; }
     }
 }
